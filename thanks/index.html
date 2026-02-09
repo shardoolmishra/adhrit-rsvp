@@ -19,10 +19,10 @@
 
     .card {
       background: white;
-      max-width: 480px;
+      max-width: 520px;
       width: 90%;
-      padding: 32px;
-      border-radius: 22px;
+      padding: 34px;
+      border-radius: 24px;
       box-shadow: 0 20px 40px rgba(0,0,0,0.15);
     }
 
@@ -36,10 +36,22 @@
       margin: 10px 0;
     }
 
+    .names {
+      margin: 16px 0;
+      font-size: 18px;
+      font-weight: 700;
+      color: #333;
+    }
+
+    .footer {
+      margin-top: 18px;
+      font-size: 16px;
+    }
+
     a {
       display: inline-block;
-      margin-top: 18px;
-      padding: 12px 18px;
+      margin-top: 22px;
+      padding: 12px 20px;
       background: #ff8fab;
       color: white;
       border-radius: 14px;
@@ -56,10 +68,50 @@
 <body>
   <div class="card">
     <h1>🎉 Thank You!</h1>
-    <p>Your RSVP has been received.</p>
-    <p>We can’t wait to celebrate <b>Adhrit’s 1st Birthday</b> with you 🎂</p>
+
+    <p id="intro">Your RSVP has been received.</p>
+
+    <div id="names" class="names"></div>
+
+    <p class="footer">
+      💖 <b>Adhrit will be expecting you!</b> 🎂
+    </p>
 
     <a href="/">Back to Invite</a>
   </div>
+
+  <script>
+    const namesContainer = document.getElementById("names");
+    const intro = document.getElementById("intro");
+
+    const storedNames = localStorage.getItem("attendeeNames");
+    let names = [];
+
+    if (storedNames) {
+      try {
+        names = JSON.parse(storedNames);
+      } catch (e) {
+        names = [];
+      }
+    }
+
+    if (names.length > 0) {
+      let formattedNames = "";
+
+      if (names.length === 1) {
+        formattedNames = names[0];
+      } else if (names.length === 2) {
+        formattedNames = `${names[0]} & ${names[1]}`;
+      } else {
+        formattedNames = `${names.slice(0, -1).join(", ")} & ${names[names.length - 1]}`;
+      }
+
+      intro.textContent = "We’re so happy you’re joining us!";
+      namesContainer.textContent = `Thank you, ${formattedNames}!`;
+    }
+
+    // Clean up so refresh doesn't reuse old data
+    localStorage.removeItem("attendeeNames");
+  </script>
 </body>
 </html>

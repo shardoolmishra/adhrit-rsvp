@@ -3,27 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Adhrit’s 1st Birthday RSVP</title>
+  <title>Thank You!</title>
 
   <style>
     body {
       margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: url("https://images.unsplash.com/photo-1544829099-b9a0c07fad1a") center/cover no-repeat;
+      background: linear-gradient(135deg, #ffe5ec, #fff1f5);
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
+      text-align: center;
     }
 
-    .overlay {
-      background: rgba(255, 255, 255, 0.93);
+    .card {
+      background: white;
       max-width: 520px;
-      width: 92%;
-      padding: 28px;
+      width: 90%;
+      padding: 32px;
       border-radius: 22px;
       box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-      text-align: center;
     }
 
     h1 {
@@ -32,82 +32,73 @@
     }
 
     p {
-      margin: 8px 0;
       font-size: 16px;
+      margin: 10px 0;
     }
 
-    .details {
-      margin: 18px 0;
-      font-weight: 500;
+    .names {
+      font-weight: 700;
+      margin: 14px 0;
+      font-size: 18px;
     }
 
-    select, button {
-      width: 100%;
-      padding: 12px;
-      font-size: 16px;
-      margin-top: 14px;
-      border-radius: 12px;
-      border: 1px solid #ccc;
-    }
-
-    button {
+    a {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 12px 18px;
       background: #ff8fab;
       color: white;
-      border: none;
+      border-radius: 14px;
+      text-decoration: none;
       font-weight: 600;
-      cursor: pointer;
     }
 
-    button:hover {
+    a:hover {
       background: #ff7096;
-    }
-
-    small {
-      display: block;
-      margin-top: 12px;
-      color: #666;
     }
   </style>
 </head>
 
 <body>
-  <div class="overlay">
-    <h1>🎂 Adhrit’s 1st Birthday</h1>
+  <div class="card">
+    <h1>🎉 Thank You!</h1>
 
-    <p>You are invited to Adhrit’s 1st Birthday on <b>30 April 2026</b>.</p>
+    <p id="message">Your RSVP has been received.</p>
 
-    <div class="details">
-      <p><b>⏰ Time:</b> 6:00 PM</p>
-      <p><b>📍 Location:</b> 119 Split Oak Dr, Cedar Park</p>
-    </div>
+    <p class="names" id="names"></p>
 
-    <!-- Netlify RSVP Form -->
-    <form
-      name="rsvp"
-      method="POST"
-      data-netlify="true"
-      netlify-honeypot="bot-field"
-      action="/thanks/">
+    <p>💖 <b>Adhrit will be expecting you!</b> 🎂</p>
 
-      <!-- Required hidden input -->
-      <input type="hidden" name="form-name" value="rsvp" />
-
-      <!-- Honeypot field -->
-      <p style="display:none;">
-        <label>Don’t fill this out: <input name="bot-field" /></label>
-      </p>
-
-      <label><b>Will you attend?</b></label>
-      <select name="attending" required>
-        <option value="" disabled selected>Select an option</option>
-        <option value="Yes">Yes 🎉</option>
-        <option value="No">No 😔</option>
-      </select>
-
-      <button type="submit">Submit RSVP</button>
-
-      <small>We can’t wait to celebrate with you 💕</small>
-    </form>
+    <a href="/">Back to Invite</a>
   </div>
+
+  <script>
+    const namesEl = document.getElementById("names");
+    const messageEl = document.getElementById("message");
+
+    const stored = localStorage.getItem("attendeeNames");
+    let names = [];
+
+    if (stored) {
+      try {
+        names = JSON.parse(stored);
+      } catch {}
+    }
+
+    if (names.length > 0) {
+      const formatted =
+        names.length === 1
+          ? names[0]
+          : names.length === 2
+          ? `${names[0]} & ${names[1]}`
+          : `${names.slice(0, -1).join(", ")} & ${names[names.length - 1]}`;
+
+      namesEl.textContent = `Thank you, ${formatted}!`;
+      messageEl.textContent = "We’re so happy you’re joining us.";
+    }
+
+    // Clean up so refresh doesn’t repeat old names
+    localStorage.removeItem("attendeeNames");
+  </script>
 </body>
 </html>
