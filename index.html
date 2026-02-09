@@ -3,27 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Thank You!</title>
+  <title>Adhrit’s 1st Birthday RSVP</title>
 
   <style>
     body {
       margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: linear-gradient(135deg, #ffe5ec, #fff1f5);
+      background: url("https://images.unsplash.com/photo-1544829099-b9a0c07fad1a") center/cover no-repeat;
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      text-align: center;
     }
 
-    .card {
-      background: white;
-      max-width: 520px;
-      width: 90%;
-      padding: 32px;
-      border-radius: 22px;
+    .overlay {
+      background: rgba(255, 255, 255, 0.93);
+      max-width: 580px;
+      width: 92%;
+      padding: 30px;
+      border-radius: 24px;
       box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      text-align: center;
     }
 
     h1 {
@@ -32,73 +32,181 @@
     }
 
     p {
+      margin: 8px 0;
       font-size: 16px;
-      margin: 10px 0;
+    }
+
+    .details {
+      margin: 18px 0;
+      font-weight: 500;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin-top: 16px;
+      font-weight: 700;
+    }
+
+    select, input[type="text"], button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      margin-top: 10px;
+      border-radius: 12px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    button {
+      background: #ff8fab;
+      color: white;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 22px;
+    }
+
+    button:hover {
+      background: #ff7096;
+    }
+
+    .hidden {
+      display: none;
     }
 
     .names {
-      font-weight: 700;
-      margin: 14px 0;
-      font-size: 18px;
+      text-align: left;
+      margin-top: 10px;
     }
 
-    a {
-      display: inline-block;
-      margin-top: 18px;
-      padding: 12px 18px;
-      background: #ff8fab;
-      color: white;
-      border-radius: 14px;
-      text-decoration: none;
-      font-weight: 600;
+    .hint {
+      font-size: 13px;
+      color: #666;
+      margin: 6px 0 10px;
+      font-weight: 500;
     }
 
-    a:hover {
-      background: #ff7096;
+    small {
+      display: block;
+      margin-top: 12px;
+      color: #666;
     }
   </style>
 </head>
 
 <body>
-  <div class="card">
-    <h1>🎉 Thank You!</h1>
+  <div class="overlay">
+    <h1>🎂 Adhrit’s 1st Birthday</h1>
 
-    <p id="message">Your RSVP has been received.</p>
+    <p>You are invited to Adhrit’s 1st Birthday on <b>30 April 2026</b>.</p>
 
-    <p class="names" id="names"></p>
+    <div class="details">
+      <p><b>⏰ Time:</b> 6:00 PM</p>
+      <p><b>📍 Location:</b> 119 Split Oak Dr, Cedar Park</p>
+    </div>
 
-    <p>💖 <b>Adhrit will be expecting you!</b> 🎂</p>
+    <!-- Netlify RSVP Form -->
+    <form
+      name="rsvp"
+      method="POST"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      action="/thanks/">
 
-    <a href="/">Back to Invite</a>
+      <!-- Required hidden input -->
+      <input type="hidden" name="form-name" value="rsvp" />
+
+      <!-- Honeypot -->
+      <p style="display:none;">
+        <label>Don’t fill this out: <input name="bot-field" /></label>
+      </p>
+
+      <label for="attending">Will you attend?</label>
+      <select id="attending" name="attending" required>
+        <option value="" disabled selected>Select an option</option>
+        <option value="Yes">Yes 🎉</option>
+        <option value="No">No 😔</option>
+      </select>
+
+      <!-- Shown only if attending = Yes -->
+      <div id="yesSection" class="hidden">
+        <label for="partySize">Number of people attending</label>
+        <select id="partySize" name="party_size">
+          <option value="" disabled selected>Select number</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+        </select>
+
+        <div id="namesSection" class="names hidden">
+          <div class="hint">Enter names of attendees:</div>
+          <div id="nameFields"></div>
+        </div>
+      </div>
+
+      <button type="submit">Submit RSVP</button>
+      <small>We can’t wait to celebrate with you 💕</small>
+    </form>
   </div>
 
   <script>
-    const namesEl = document.getElementById("names");
-    const messageEl = document.getElementById("message");
+    const attendingEl = document.getElementById("attending");
+    const yesSection = document.getElementById("yesSection");
+    const partySizeEl = document.getElementById("partySize");
+    const namesSection = document.getElementById("namesSection");
+    const nameFields = document.getElementById("nameFields");
+    const form = document.querySelector('form[name="rsvp"]');
 
-    const stored = localStorage.getItem("attendeeNames");
-    let names = [];
-
-    if (stored) {
-      try {
-        names = JSON.parse(stored);
-      } catch {}
+    function clearNames() {
+      nameFields.innerHTML = "";
+      namesSection.classList.add("hidden");
     }
 
-    if (names.length > 0) {
-      const formatted =
-        names.length === 1
-          ? names[0]
-          : names.length === 2
-          ? `${names[0]} & ${names[1]}`
-          : `${names.slice(0, -1).join(", ")} & ${names[names.length - 1]}`;
-
-      namesEl.textContent = `Thank you, ${formatted}!`;
-      messageEl.textContent = "We’re so happy you’re joining us.";
+    function renderNameInputs(count) {
+      clearNames();
+      for (let i = 1; i <= count; i++) {
+        const input = document.createElement("input");
+        input.type = "text";
+        input.name = `attendee_${i}_name`;
+        input.placeholder = `Attendee ${i} name`;
+        input.required = true;
+        input.style.marginTop = "8px";
+        nameFields.appendChild(input);
+      }
+      namesSection.classList.remove("hidden");
     }
 
-    // Clean up so refresh doesn’t repeat old names
-    localStorage.removeItem("attendeeNames");
+    attendingEl.addEventListener("change", () => {
+      if (attendingEl.value === "Yes") {
+        yesSection.classList.remove("hidden");
+        partySizeEl.required = true;
+      } else {
+        yesSection.classList.add("hidden");
+        partySizeEl.required = false;
+        partySizeEl.value = "";
+        clearNames();
+      }
+    });
+
+    partySizeEl.addEventListener("change", () => {
+      const count = parseInt(partySizeEl.value, 10);
+      if (count > 0) renderNameInputs(count);
+      else clearNames();
+    });
+
+    // Store names for thank-you page
+    form.addEventListener("submit", () => {
+      const inputs = document.querySelectorAll('[name^="attendee_"]');
+      const names = [];
+      inputs.forEach(i => {
+        if (i.value.trim()) names.push(i.value.trim());
+      });
+      localStorage.setItem("attendeeNames", JSON.stringify(names));
+    });
   </script>
 </body>
 </html>
