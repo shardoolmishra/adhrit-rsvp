@@ -17,11 +17,11 @@
     }
 
     .overlay {
-      background: rgba(255, 255, 255, 0.92);
-      max-width: 500px;
-      width: 90%;
+      background: rgba(255, 255, 255, 0.93);
+      max-width: 520px;
+      width: 92%;
       padding: 28px;
-      border-radius: 20px;
+      border-radius: 22px;
       box-shadow: 0 20px 40px rgba(0,0,0,0.15);
       text-align: center;
     }
@@ -37,7 +37,7 @@
     }
 
     .details {
-      margin: 16px 0;
+      margin: 18px 0;
       font-weight: 500;
     }
 
@@ -45,7 +45,7 @@
       width: 100%;
       padding: 12px;
       font-size: 16px;
-      margin-top: 12px;
+      margin-top: 14px;
       border-radius: 12px;
       border: 1px solid #ccc;
     }
@@ -64,7 +64,7 @@
 
     small {
       display: block;
-      margin-top: 10px;
+      margin-top: 12px;
       color: #666;
     }
   </style>
@@ -74,19 +74,25 @@
   <div class="overlay">
     <h1>🎂 Adhrit’s 1st Birthday</h1>
 
-    <p>You are invited to celebrate Adhrit’s 1st Birthday!</p>
+    <p>You are invited to Adhrit’s 1st Birthday on <b>30 April 2026</b>.</p>
 
     <div class="details">
-      <p><b>📅 Date:</b> 30 April 2026</p>
       <p><b>⏰ Time:</b> 6:00 PM</p>
       <p><b>📍 Location:</b> 119 Split Oak Dr, Cedar Park</p>
     </div>
 
-    <!-- Netlify Form -->
-    <form name="rsvp" method="POST" data-netlify="true">
+    <!-- Netlify RSVP Form -->
+    <form
+      name="rsvp"
+      method="POST"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      action="/thanks/">
+
+      <!-- Required hidden input -->
       <input type="hidden" name="form-name" value="rsvp" />
 
-      <!-- spam protection -->
+      <!-- Honeypot field -->
       <p style="display:none;">
         <label>Don’t fill this out: <input name="bot-field" /></label>
       </p>
@@ -99,7 +105,8 @@
       </select>
 
       <button type="submit">Submit RSVP</button>
-      <small>Thank you! We look forward to celebrating together 💕</small>
+
+      <small>We can’t wait to celebrate with you 💕</small>
     </form>
   </div>
 </body>
