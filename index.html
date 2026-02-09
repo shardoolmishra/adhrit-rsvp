@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Adhrit’s 1st Birthday RSVP</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: url("https://images.unsplash.com/photo-1544829099-b9a0c07fad1a") center/cover no-repeat;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .overlay {
+      background: rgba(255, 255, 255, 0.92);
+      max-width: 500px;
+      width: 90%;
+      padding: 28px;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 28px;
+    }
+
+    p {
+      margin: 8px 0;
+      font-size: 16px;
+    }
+
+    .details {
+      margin: 16px 0;
+      font-weight: 500;
+    }
+
+    select, button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      margin-top: 12px;
+      border-radius: 12px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background: #ff8fab;
+      color: white;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #ff7096;
+    }
+
+    small {
+      display: block;
+      margin-top: 10px;
+      color: #666;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="overlay">
+    <h1>🎂 Adhrit’s 1st Birthday</h1>
+
+    <p>You are invited to celebrate Adhrit’s 1st Birthday!</p>
+
+    <div class="details">
+      <p><b>📅 Date:</b> 30 April 2026</p>
+      <p><b>⏰ Time:</b> 6:00 PM</p>
+      <p><b>📍 Location:</b> 119 Split Oak Dr, Cedar Park</p>
+    </div>
+
+    <!-- Netlify Form -->
+    <form name="rsvp" method="POST" data-netlify="true">
+      <input type="hidden" name="form-name" value="rsvp" />
+
+      <!-- spam protection -->
+      <p style="display:none;">
+        <label>Don’t fill this out: <input name="bot-field" /></label>
+      </p>
+
+      <label><b>Will you attend?</b></label>
+      <select name="attending" required>
+        <option value="" disabled selected>Select an option</option>
+        <option value="Yes">Yes 🎉</option>
+        <option value="No">No 😔</option>
+      </select>
+
+      <button type="submit">Submit RSVP</button>
+      <small>Thank you! We look forward to celebrating together 💕</small>
+    </form>
+  </div>
+</body>
+</html>
