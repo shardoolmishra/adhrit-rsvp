@@ -9,15 +9,12 @@
     html, body {
       height: 100%;
       margin: 0;
-      overflow: hidden; /* 🚫 no scroll */
+      overflow: hidden;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    body {
-      background-color: #f2e8e4; /* soft border fill */
-    }
+    body { background-color: #f2e8e4; }
 
-    /* Background container */
     .bg {
       position: fixed;
       inset: 0;
@@ -29,29 +26,23 @@
       background-color: #f2e8e4;
     }
 
-    /* Background image (static, no animation) */
     .bg img {
       max-height: 100vh;
       max-width: 100vw;
       height: auto;
       width: auto;
-      object-fit: contain; /* show full image */
+      object-fit: contain;
       display: block;
     }
 
-    /* Soft overlay so card pops */
     .shade {
       position: fixed;
       inset: 0;
       z-index: -1;
-      background: linear-gradient(
-        rgba(0,0,0,0.12),
-        rgba(0,0,0,0.22)
-      );
+      background: linear-gradient(rgba(0,0,0,0.12), rgba(0,0,0,0.22));
       pointer-events: none;
     }
 
-    /* Page container */
     .page {
       height: 100%;
       display: flex;
@@ -72,25 +63,11 @@
       box-sizing: border-box;
     }
 
-    h1 {
-      margin: 0 0 8px;
-      font-size: 30px;
-      line-height: 1.2;
-    }
+    h1 { margin: 0 0 8px; font-size: 30px; line-height: 1.2; }
+    p { margin: 8px 0; font-size: 16px; }
 
-    p {
-      margin: 8px 0;
-      font-size: 16px;
-    }
-
-    .details {
-      margin: 16px 0 10px;
-      font-weight: 600;
-    }
-
-    .details p {
-      margin: 6px 0;
-    }
+    .details { margin: 16px 0 10px; font-weight: 600; }
+    .details p { margin: 6px 0; }
 
     label {
       display: block;
@@ -117,14 +94,9 @@
       cursor: pointer;
       margin-top: 22px;
     }
+    button:hover { background: #ff7096; }
 
-    button:hover {
-      background: #ff7096;
-    }
-
-    .hidden {
-      display: none;
-    }
+    .hidden { display: none; }
 
     .names {
       text-align: left;
@@ -138,33 +110,21 @@
       font-weight: 600;
     }
 
-    small {
-      display: block;
-      margin-top: 12px;
-      color: #666;
-    }
+    small { display: block; margin-top: 12px; color: #666; }
 
-    /* Mobile tweaks */
     @media (max-width: 480px) {
-      .overlay {
-        padding: 22px;
-        border-radius: 20px;
-      }
-      h1 {
-        font-size: 26px;
-      }
+      .overlay { padding: 22px; border-radius: 20px; }
+      h1 { font-size: 26px; }
     }
   </style>
 </head>
 
 <body>
-  <!-- Background -->
   <div class="bg">
     <img src="images/adhrit.png.png" alt="Adhrit" />
   </div>
   <div class="shade"></div>
 
-  <!-- Content -->
   <div class="page">
     <div class="overlay">
       <h1>🎂 Adhrit’s 1st Birthday</h1>
@@ -175,7 +135,6 @@
         <p>📍 <b>Location:</b> 119 Split Oak Dr, Cedar Park</p>
       </div>
 
-      <!-- Netlify RSVP Form -->
       <form
         name="rsvp"
         method="POST"
@@ -184,14 +143,12 @@
         action="/thanks/">
 
         <input type="hidden" name="form-name" value="rsvp" />
+        <input type="hidden" id="attendeeNamesField" name="attendee_names" />
+        <input type="hidden" id="attendingHidden" name="attending_value" value="" />
 
-        <!-- Honeypot -->
         <p style="display:none;">
           <label>Don’t fill this out: <input name="bot-field" /></label>
         </p>
-
-        <!-- Static field Netlify always captures -->
-        <input type="hidden" id="attendeeNamesField" name="attendee_names" />
 
         <label for="attending">Will you attend?</label>
         <select id="attending" name="attending" required>
@@ -200,6 +157,7 @@
           <option value="No">No 😔</option>
         </select>
 
+        <!-- YES section: count + names -->
         <div id="yesSection" class="hidden">
           <label for="partySize">Number of people attending</label>
           <select id="partySize" name="party_size">
@@ -212,76 +170,118 @@
             <option value="6">6</option>
           </select>
 
-          <div id="namesSection" class="names hidden">
+          <div id="yesNamesSection" class="names hidden">
             <div class="hint">Enter names of attendees:</div>
-            <div id="nameFields"></div>
+            <div id="yesNameFields"></div>
+          </div>
+        </div>
+
+        <!-- NO section: names only -->
+        <div id="noSection" class="hidden">
+          <div class="names">
+            <div class="hint">Please share names (so we know who to miss 😢):</div>
+            <div id="noNameFields"></div>
           </div>
         </div>
 
         <button type="submit">Submit RSVP</button>
-        <small>We can’t wait to celebrate with you 💕</small>
+        <small>Thank you for letting us know 💕</small>
       </form>
     </div>
   </div>
 
   <script>
     const attendingEl = document.getElementById("attending");
+
     const yesSection = document.getElementById("yesSection");
     const partySizeEl = document.getElementById("partySize");
-    const namesSection = document.getElementById("namesSection");
-    const nameFields = document.getElementById("nameFields");
+    const yesNamesSection = document.getElementById("yesNamesSection");
+    const yesNameFields = document.getElementById("yesNameFields");
+
+    const noSection = document.getElementById("noSection");
+    const noNameFields = document.getElementById("noNameFields");
+
     const form = document.querySelector('form[name="rsvp"]');
     const namesHidden = document.getElementById("attendeeNamesField");
+    const attendingHidden = document.getElementById("attendingHidden");
 
-    function clearNames() {
-      nameFields.innerHTML = "";
-      namesSection.classList.add("hidden");
-    }
+    function clearContainer(el) { el.innerHTML = ""; }
 
-    function renderNameInputs(count) {
-      clearNames();
+    function renderNameInputs(container, count, prefix) {
+      clearContainer(container);
       for (let i = 1; i <= count; i++) {
         const input = document.createElement("input");
         input.type = "text";
-        input.name = `attendee_${i}_name`;
-        input.placeholder = `Attendee ${i} name`;
+        input.name = `${prefix}_${i}_name`;
+        input.placeholder = `${prefix === "attendee" ? "Person" : "Name"} ${i}`;
         input.required = true;
         input.style.marginTop = "8px";
-        nameFields.appendChild(input);
+        container.appendChild(input);
       }
-      namesSection.classList.remove("hidden");
+    }
+
+    function hideAll() {
+      yesSection.classList.add("hidden");
+      yesNamesSection.classList.add("hidden");
+      noSection.classList.add("hidden");
+
+      partySizeEl.required = false;
+      partySizeEl.value = "";
+
+      clearContainer(yesNameFields);
+      clearContainer(noNameFields);
     }
 
     attendingEl.addEventListener("change", () => {
-      if (attendingEl.value === "Yes") {
+      hideAll();
+
+      const attending = attendingEl.value;
+      attendingHidden.value = attending; // for thank-you page logic
+
+      if (attending === "Yes") {
         yesSection.classList.remove("hidden");
         partySizeEl.required = true;
-      } else {
-        yesSection.classList.add("hidden");
-        partySizeEl.required = false;
-        partySizeEl.value = "";
-        clearNames();
-        namesHidden.value = "";
+      } else if (attending === "No") {
+        noSection.classList.remove("hidden");
+        // For "No", show 1–4 name fields by default (edit if you want)
+        renderNameInputs(noNameFields, 1, "not_attending"); // default 2
       }
     });
 
     partySizeEl.addEventListener("change", () => {
       const count = parseInt(partySizeEl.value, 10);
-      if (count > 0) renderNameInputs(count);
-      else clearNames();
+      clearContainer(yesNameFields);
+      if (count > 0) {
+        renderNameInputs(yesNameFields, count, "attendee");
+        yesNamesSection.classList.remove("hidden");
+      } else {
+        yesNamesSection.classList.add("hidden");
+      }
     });
 
-    // Save names for thank-you page + Netlify submission
+    // For "No", allow user to choose how many names? (Optional)
+    // Quick UX: add + / - buttons if you want later.
+
     form.addEventListener("submit", () => {
-      const inputs = document.querySelectorAll('[name^="attendee_"]');
+      const attending = attendingEl.value;
+      attendingHidden.value = attending;
+
+      // Collect names from whichever section is visible
+      const inputs = form.querySelectorAll('input[type="text"]');
       const names = [];
       inputs.forEach(i => {
         if (i.value.trim()) names.push(i.value.trim());
       });
 
       localStorage.setItem("attendeeNames", JSON.stringify(names));
+      localStorage.setItem("attendingValue", attending);
+
+      // Ensure Netlify always captures names
       namesHidden.value = names.join(", ");
     });
+
+    // Start clean
+    hideAll();
   </script>
 </body>
 </html>
