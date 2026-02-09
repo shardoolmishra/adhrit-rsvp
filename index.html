@@ -6,42 +6,67 @@
   <title>Adhrit’s 1st Birthday RSVP</title>
 
   <style>
+    /* Subtle zoom animation */
+    @keyframes slowZoom {
+      0%   { transform: scale(1); }
+      100% { transform: scale(1.06); }
+    }
+
     body {
       margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background:
-        linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
-        url("images/adhrit.png.png") center/cover no-repeat;
       min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Animated background layer */
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background-color: #f2e8e4; /* soft warm fill */
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: flex-start;
+      padding-top: 10px;
+      overflow: hidden;
+    }
+
+    /* The image itself (animated) */
+    .bg img {
+      width: min(1000px, 100vw);
+      height: auto;
+      object-fit: contain;
+      transform-origin: center top;
+      animation: slowZoom 18s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+
+    /* Optional: slight soft overlay so content pops */
+    .shade {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(rgba(0,0,0,0.10), rgba(0,0,0,0.20));
+      pointer-events: none;
     }
 
     .overlay {
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.96);
       max-width: 600px;
       width: 92%;
       padding: 32px;
       border-radius: 26px;
       box-shadow: 0 25px 50px rgba(0,0,0,0.25);
       text-align: center;
+
+      /* push card below image */
+      margin: 280px auto 40px;
     }
 
-    h1 {
-      margin-top: 0;
-      font-size: 30px;
-    }
-
-    p {
-      margin: 8px 0;
-      font-size: 16px;
-    }
-
-    .details {
-      margin: 18px 0;
-      font-weight: 500;
-    }
+    h1 { margin-top: 0; font-size: 30px; }
+    p { margin: 8px 0; font-size: 16px; }
+    .details { margin: 18px 0; font-weight: 500; }
 
     label {
       display: block;
@@ -68,36 +93,33 @@
       cursor: pointer;
       margin-top: 22px;
     }
+    button:hover { background: #ff7096; }
 
-    button:hover {
-      background: #ff7096;
+    .hidden { display: none; }
+    .names { text-align: left; margin-top: 10px; }
+    .hint { font-size: 13px; color: #666; margin: 6px 0 10px; font-weight: 500; }
+    small { display: block; margin-top: 12px; color: #666; }
+
+    /* Mobile adjustments */
+    @media (max-width: 600px) {
+      .bg img { width: 100vw; }
+      .overlay { margin-top: 220px; }
     }
 
-    .hidden {
-      display: none;
-    }
-
-    .names {
-      text-align: left;
-      margin-top: 10px;
-    }
-
-    .hint {
-      font-size: 13px;
-      color: #666;
-      margin: 6px 0 10px;
-      font-weight: 500;
-    }
-
-    small {
-      display: block;
-      margin-top: 12px;
-      color: #666;
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .bg img { animation: none; }
     }
   </style>
 </head>
 
 <body>
+  <!-- Animated background -->
+  <div class="bg">
+    <img src="images/adhrit.png" alt="Adhrit" />
+  </div>
+  <div class="shade"></div>
+
   <div class="overlay">
     <h1>🎂 Adhrit’s 1st Birthday</h1>
 
@@ -108,7 +130,6 @@
       <p><b>📍 Location:</b> 119 Split Oak Dr, Cedar Park</p>
     </div>
 
-    <!-- Netlify RSVP Form -->
     <form
       name="rsvp"
       method="POST"
@@ -117,14 +138,11 @@
       action="/thanks/">
 
       <input type="hidden" name="form-name" value="rsvp" />
+      <input type="hidden" id="attendeeNamesField" name="attendee_names" />
 
-      <!-- Honeypot -->
       <p style="display:none;">
         <label>Don’t fill this out: <input name="bot-field" /></label>
       </p>
-
-      <!-- Static field Netlify always captures -->
-      <input type="hidden" id="attendeeNamesField" name="attendee_names" />
 
       <label for="attending">Will you attend?</label>
       <select id="attending" name="attending" required>
