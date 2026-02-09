@@ -9,24 +9,39 @@
     body {
       margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: url("https://images.unsplash.com/photo-1544829099-b9a0c07fad1a") center/cover no-repeat;
+      background:
+        linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
+        url("images/adhrit.jpg") center/cover no-repeat;
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
     }
+
     .overlay {
-      background: rgba(255, 255, 255, 0.93);
-      max-width: 580px;
+      background: rgba(255, 255, 255, 0.95);
+      max-width: 600px;
       width: 92%;
-      padding: 30px;
-      border-radius: 24px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      padding: 32px;
+      border-radius: 26px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.25);
       text-align: center;
     }
-    h1 { margin-top: 0; font-size: 28px; }
-    p { margin: 8px 0; font-size: 16px; }
-    .details { margin: 18px 0; font-weight: 500; }
+
+    h1 {
+      margin-top: 0;
+      font-size: 30px;
+    }
+
+    p {
+      margin: 8px 0;
+      font-size: 16px;
+    }
+
+    .details {
+      margin: 18px 0;
+      font-weight: 500;
+    }
 
     label {
       display: block;
@@ -40,7 +55,7 @@
       padding: 12px;
       font-size: 16px;
       margin-top: 10px;
-      border-radius: 12px;
+      border-radius: 14px;
       border: 1px solid #ccc;
       box-sizing: border-box;
     }
@@ -53,18 +68,39 @@
       cursor: pointer;
       margin-top: 22px;
     }
-    button:hover { background: #ff7096; }
 
-    .hidden { display: none; }
-    .names { text-align: left; margin-top: 10px; }
-    .hint { font-size: 13px; color: #666; margin: 6px 0 10px; font-weight: 500; }
-    small { display: block; margin-top: 12px; color: #666; }
+    button:hover {
+      background: #ff7096;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .names {
+      text-align: left;
+      margin-top: 10px;
+    }
+
+    .hint {
+      font-size: 13px;
+      color: #666;
+      margin: 6px 0 10px;
+      font-weight: 500;
+    }
+
+    small {
+      display: block;
+      margin-top: 12px;
+      color: #666;
+    }
   </style>
 </head>
 
 <body>
   <div class="overlay">
     <h1>🎂 Adhrit’s 1st Birthday</h1>
+
     <p>You are invited to Adhrit’s 1st Birthday on <b>30 April 2026</b>.</p>
 
     <div class="details">
@@ -72,6 +108,7 @@
       <p><b>📍 Location:</b> 119 Split Oak Dr, Cedar Park</p>
     </div>
 
+    <!-- Netlify RSVP Form -->
     <form
       name="rsvp"
       method="POST"
@@ -81,12 +118,13 @@
 
       <input type="hidden" name="form-name" value="rsvp" />
 
+      <!-- Honeypot -->
       <p style="display:none;">
         <label>Don’t fill this out: <input name="bot-field" /></label>
       </p>
 
-      <!-- ✅ Static field Netlify will always show -->
-      <input type="hidden" id="attendeeNamesField" name="attendee_names" value="" />
+      <!-- Static field Netlify always captures -->
+      <input type="hidden" id="attendeeNamesField" name="attendee_names" />
 
       <label for="attending">Will you attend?</label>
       <select id="attending" name="attending" required>
@@ -125,6 +163,7 @@
     const namesSection = document.getElementById("namesSection");
     const nameFields = document.getElementById("nameFields");
     const form = document.querySelector('form[name="rsvp"]');
+    const namesHidden = document.getElementById("attendeeNamesField");
 
     function clearNames() {
       nameFields.innerHTML = "";
@@ -154,7 +193,7 @@
         partySizeEl.required = false;
         partySizeEl.value = "";
         clearNames();
-        document.getElementById("attendeeNamesField").value = "";
+        namesHidden.value = "";
       }
     });
 
@@ -164,7 +203,6 @@
       else clearNames();
     });
 
-    // ✅ Before submit: store names for thanks page AND in a static Netlify field
     form.addEventListener("submit", () => {
       const inputs = document.querySelectorAll('[name^="attendee_"]');
       const names = [];
@@ -173,7 +211,7 @@
       });
 
       localStorage.setItem("attendeeNames", JSON.stringify(names));
-      document.getElementById("attendeeNamesField").value = names.join(", ");
+      namesHidden.value = names.join(", ");
     });
   </script>
 </body>
