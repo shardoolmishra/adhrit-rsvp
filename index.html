@@ -9,12 +9,15 @@
     html, body {
       height: 100%;
       margin: 0;
-      overflow: hidden;
+      overflow: hidden; /* no scroll */
       font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    body { background-color: #f2e8e4; }
+    body {
+      background-color: #f2e8e4;
+    }
 
+    /* Background container */
     .bg {
       position: fixed;
       inset: 0;
@@ -26,7 +29,9 @@
       background-color: #f2e8e4;
     }
 
+    /* Desktop / default background image (landscape ok) */
     .bg img {
+      content: url("images/adhrit.png.png");
       max-height: 100vh;
       max-width: 100vw;
       height: auto;
@@ -35,14 +40,26 @@
       display: block;
     }
 
+    /* Mobile: swap to portrait image */
+    @media (max-width: 600px) {
+      .bg img {
+        content: url("images/adhrit-mobile.png");
+        max-height: 100vh;
+        max-width: 100vw;
+        object-fit: contain;
+      }
+    }
+
+    /* Soft overlay so card pops */
     .shade {
       position: fixed;
       inset: 0;
       z-index: -1;
-      background: linear-gradient(rgba(0,0,0,0.12), rgba(0,0,0,0.22));
+      background: linear-gradient(rgba(0,0,0,0.10), rgba(0,0,0,0.22));
       pointer-events: none;
     }
 
+    /* Center card */
     .page {
       height: 100%;
       display: flex;
@@ -52,15 +69,18 @@
       box-sizing: border-box;
     }
 
+    /* ✅ 70% opacity card */
     .overlay {
-      background: rgba(255, 255, 255, 0.96);
+      background: rgba(255, 255, 255, 0.70); /* 70% opacity */
       max-width: 620px;
-      width: 100%;
+      width: 92%;
       padding: 32px;
       border-radius: 26px;
       box-shadow: 0 25px 50px rgba(0,0,0,0.25);
       text-align: center;
       box-sizing: border-box;
+      /* optional: makes transparent card still readable */
+      backdrop-filter: blur(2px);
     }
 
     h1 { margin: 0 0 8px; font-size: 30px; line-height: 1.2; }
@@ -84,6 +104,7 @@
       border-radius: 14px;
       border: 1px solid #ccc;
       box-sizing: border-box;
+      background: rgba(255,255,255,0.92);
     }
 
     button {
@@ -94,8 +115,8 @@
       cursor: pointer;
       margin-top: 22px;
     }
-    button:hover { background: #ff7096; }
 
+    button:hover { background: #ff7096; }
     .hidden { display: none; }
 
     .names {
@@ -105,12 +126,12 @@
 
     .hint {
       font-size: 13px;
-      color: #666;
+      color: #333;
       margin: 6px 0 10px;
       font-weight: 600;
     }
 
-    small { display: block; margin-top: 12px; color: #666; }
+    small { display: block; margin-top: 12px; color: #333; }
 
     @media (max-width: 480px) {
       .overlay { padding: 22px; border-radius: 20px; }
@@ -120,11 +141,13 @@
 </head>
 
 <body>
+  <!-- Background -->
   <div class="bg">
-    <img src="images/adhrit.png.png" alt="Adhrit" />
+    <img alt="Adhrit" />
   </div>
   <div class="shade"></div>
 
+  <!-- Content -->
   <div class="page">
     <div class="overlay">
       <h1>🎂 Adhrit’s 1st Birthday</h1>
@@ -135,6 +158,7 @@
         <p>📍 <b>Location:</b> 119 Split Oak Dr, Cedar Park</p>
       </div>
 
+      <!-- Netlify RSVP Form -->
       <form
         name="rsvp"
         method="POST"
@@ -213,7 +237,7 @@
         const input = document.createElement("input");
         input.type = "text";
         input.name = `${prefix}_${i}_name`;
-        input.placeholder = `${prefix === "attendee" ? "Person" : "Name"} ${i}`;
+        input.placeholder = `Name ${i}`;
         input.required = true;
         input.style.marginTop = "8px";
         container.appendChild(input);
@@ -236,21 +260,21 @@
       hideAll();
 
       const attending = attendingEl.value;
-      attendingHidden.value = attending; // for thank-you page logic
+      attendingHidden.value = attending;
 
       if (attending === "Yes") {
         yesSection.classList.remove("hidden");
         partySizeEl.required = true;
       } else if (attending === "No") {
         noSection.classList.remove("hidden");
-        // For "No", show 1–4 name fields by default (edit if you want)
-        renderNameInputs(noNameFields, 1, "not_attending"); // default 2
+        renderNameInputs(noNameFields, 1, "not_attending");
       }
     });
 
     partySizeEl.addEventListener("change", () => {
       const count = parseInt(partySizeEl.value, 10);
       clearContainer(yesNameFields);
+
       if (count > 0) {
         renderNameInputs(yesNameFields, count, "attendee");
         yesNamesSection.classList.remove("hidden");
@@ -259,14 +283,10 @@
       }
     });
 
-    // For "No", allow user to choose how many names? (Optional)
-    // Quick UX: add + / - buttons if you want later.
-
     form.addEventListener("submit", () => {
       const attending = attendingEl.value;
       attendingHidden.value = attending;
 
-      // Collect names from whichever section is visible
       const inputs = form.querySelectorAll('input[type="text"]');
       const names = [];
       inputs.forEach(i => {
@@ -276,11 +296,9 @@
       localStorage.setItem("attendeeNames", JSON.stringify(names));
       localStorage.setItem("attendingValue", attending);
 
-      // Ensure Netlify always captures names
       namesHidden.value = names.join(", ");
     });
 
-    // Start clean
     hideAll();
   </script>
 </body>
