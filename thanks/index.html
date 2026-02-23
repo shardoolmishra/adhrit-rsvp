@@ -21,7 +21,7 @@
 
     .card {
       background: white;
-      max-width: 520px;
+      max-width: 560px;
       width: 100%;
       padding: 34px;
       border-radius: 24px;
@@ -38,18 +38,56 @@
       color: #333;
     }
 
-    a {
-      display: inline-block;
-      margin-top: 22px;
-      padding: 12px 20px;
-      background: #ff8fab;
-      color: white;
-      border-radius: 14px;
-      text-decoration: none;
-      font-weight: 600;
+    .actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 18px;
     }
 
-    a:hover { background: #ff7096; }
+    .btn {
+      display: inline-block;
+      padding: 12px 16px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      background: #ff8fab;
+      color: white;
+    }
+
+    .btn:hover { background: #ff7096; }
+
+    .btn.secondary {
+      background: white;
+      color: #ff4d7a;
+      border: 2px solid #ff8fab;
+    }
+
+    .btn.secondary:hover {
+      background: #fff0f4;
+    }
+
+    .eventBox {
+      margin-top: 14px;
+      text-align: left;
+      background: #fff6f8;
+      border: 1px solid #ffd1dd;
+      border-radius: 16px;
+      padding: 14px 16px;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .eventBox b { display: inline-block; min-width: 86px; }
+
+    .small {
+      margin-top: 14px;
+      font-size: 13px;
+      color: #555;
+    }
   </style>
 </head>
 
@@ -58,8 +96,28 @@
     <h1 id="title">Thank You!</h1>
     <p id="message">Your RSVP has been received.</p>
     <div id="names" class="names"></div>
+
+    <div id="eventBox" class="eventBox" style="display:none;">
+      <div><b>Event:</b> Adhrit’s 1st Birthday</div>
+      <div><b>Date:</b> 2nd May 2026</div>
+      <div><b>Time:</b> 2:00 PM</div>
+      <div><b>Location:</b> 1435 Main St, Cedar Park, TX 78613</div>
+    </div>
+
+    <div id="calendarActions" class="actions" style="display:none;">
+      <a id="googleCalLink" class="btn" target="_blank" rel="noreferrer">📅 Add to Google Calendar</a>
+      <a id="icsLink" class="btn secondary" download="Adhrit-1st-Birthday.ics" href="#">⬇️ Download .ics</a>
+    </div>
+
     <p id="footer"></p>
-    <a href="/">Back to Invite</a>
+
+    <div class="actions">
+      <a class="btn secondary" href="/">Back to Invite</a>
+    </div>
+
+    <div class="small">
+      Tip: If the calendar buttons don’t show, it means RSVP was “No” (or the browser blocked local storage).
+    </div>
   </div>
 
   <script>
@@ -74,6 +132,12 @@
     const namesEl = document.getElementById("names");
     const footer = document.getElementById("footer");
 
+    const calendarActions = document.getElementById("calendarActions");
+    const eventBox = document.getElementById("eventBox");
+    const googleCalLink = document.getElementById("googleCalLink");
+    const icsLink = document.getElementById("icsLink");
+
+    // Read what we saved during form submit
     const storedNames = localStorage.getItem("attendeeNames");
     const attendingValue = localStorage.getItem("attendingValue");
 
@@ -86,16 +150,80 @@
       namesEl.textContent = `Thank you, ${formatNames(names)}!`;
     }
 
+    // ---- Event details (Central Time) ----
+    // 2 May 2026, 2:00 PM America/Chicago
+    // Google Calendar URL uses UTC times in this format: YYYYMMDDTHHMMSSZ
+    // 2:00 PM CT on May 2, 2026 == 19:00 UTC (assuming CDT, UTC-5). May is DST in Chicago.
+    // Start: 20260502T190000Z, End: 20260502T220000Z (3 hours duration)
+    const eventTitle = "Adhrit’s 1st Birthday";
+    const location = "1435 Main St, Cedar Park, TX 78613";
+    const details = "You are invited to Adhrit’s 1st Birthday!";
+    const startUtc = "20260502T190000Z";
+    const endUtc   = "20260502T220000Z";
+
+    // Build Google Calendar link
+    const gcUrl = new URL("https://calendar.google.com/calendar/render");
+    gcUrl.searchParams.set("action", "TEMPLATE");
+    gcUrl.searchParams.set("text", eventTitle);
+    gcUrl.searchParams.set("dates", `${startUtc}/${endUtc}`);
+    gcUrl.searchParams.set("details", details);
+    gcUrl.searchParams.set("location", location);
+
+    // Build ICS (iCalendar) file as a data URL
+    function buildIcs() {
+      // DTSTAMP: current time in UTC format YYYYMMDDTHHMMSSZ
+      const now = new Date();
+      const pad = (n) => String(n).padStart(2, "0");
+      const dtstamp =
+        now.getUTCFullYear() +
+        pad(now.getUTCMonth() + 1) +
+        pad(now.getUTCDate()) + "T" +
+        pad(now.getUTCHours()) +
+        pad(now.getUTCMinutes()) +
+        pad(now.getUTCSeconds()) + "Z";
+
+      // Simple UID
+      const uid = `adhrit-1st-bday-${Date.now()}@shardool`;
+
+      const ics =
+`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Adhrit RSVP//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:${uid}
+DTSTAMP:${dtstamp}
+DTSTART:${startUtc}
+DTEND:${endUtc}
+SUMMARY:${eventTitle}
+DESCRIPTION:${details}
+LOCATION:${location}
+END:VEVENT
+END:VCALENDAR`;
+
+      return "data:text/calendar;charset=utf-8," + encodeURIComponent(ics);
+    }
+
+    // ---- Page message logic ----
     if (attendingValue === "Yes") {
       title.textContent = "🎉 Yay! Thank You!";
       message.textContent = "We’re so happy you’re joining us!";
       footer.innerHTML = "💖 <b>Adhrit will be expecting you!</b> 🎂";
+
+      // Show calendar actions only on acceptance
+      eventBox.style.display = "block";
+      calendarActions.style.display = "flex";
+      googleCalLink.href = gcUrl.toString();
+      icsLink.href = buildIcs();
+
     } else if (attendingValue === "No") {
       title.textContent = "😔 We’ll Miss You";
       message.textContent = "Thanks for letting us know. We’re sad you can’t make it.";
       footer.innerHTML = "💔 <b>Adhrit will miss you!</b> We hope to see you soon.";
     } else {
-      footer.innerHTML = "💖 <b>Adhrit will be expecting you!</b> 🎂";
+      // Fallback
+      footer.innerHTML = "💖 <b>Thank you!</b>";
     }
 
     // Cleanup
