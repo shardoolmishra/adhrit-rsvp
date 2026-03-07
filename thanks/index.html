@@ -1,29 +1,184 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Thank You!</title>
 
 <style>
-body{
+html, body {
+height:100%;
 margin:0;
-font-family:system-ui;
-background:linear-gradient(135deg,#ffe5ec,#fff1f5);
+overflow:hidden;
+font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+}
+
+body{
+background:#f2e8e4;
+}
+
+/* Background image */
+
+.bg{
+position:fixed;
+inset:0;
+z-index:-3;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.bg img{
+content:url("images/adhrit.png.png");
+max-height:100vh;
+max-width:100vw;
+object-fit:contain;
+}
+
+@media (max-width:600px){
+.bg img{
+content:url("images/adhrit-mobile.png");
+}
+}
+
+/* Shade overlay */
+
+.shade{
+position:fixed;
+inset:0;
+z-index:-2;
+background:linear-gradient(rgba(0,0,0,0.10),rgba(0,0,0,0.22));
+}
+
+/* Floating balloons */
+
+.balloons{
+position:fixed;
+inset:0;
+z-index:-1;
+overflow:hidden;
+pointer-events:none;
+}
+
+.balloon{
+position:absolute;
+bottom:-180px;
+width:95px;
+height:120px;
+border-radius:50% 50% 45% 45%;
+opacity:0.85;
+animation:floatUp linear infinite;
+}
+
+.balloon::before{
+content:"";
+position:absolute;
+bottom:-55px;
+left:50%;
+width:2px;
+height:60px;
+background:rgba(255,255,255,0.7);
+transform:translateX(-50%);
+}
+
+.balloon::after{
+content:"";
+position:absolute;
+bottom:-6px;
+left:50%;
+width:12px;
+height:12px;
+background:inherit;
+transform:translateX(-50%) rotate(45deg);
+}
+
+.balloon1{
+left:8%;
+background:#ff8fab;
+animation-duration:7s;
+}
+
+.balloon2{
+left:22%;
+background:#ffd166;
+animation-duration:9s;
+animation-delay:1s;
+}
+
+.balloon3{
+left:40%;
+background:#90e0ef;
+animation-duration:8s;
+animation-delay:.5s;
+}
+
+.balloon4{
+left:62%;
+background:#cdb4db;
+animation-duration:10s;
+animation-delay:2s;
+}
+
+.balloon5{
+left:78%;
+background:#95d5b2;
+animation-duration:7.5s;
+animation-delay:1.5s;
+}
+
+.balloon6{
+left:90%;
+background:#f9bec7;
+animation-duration:9.5s;
+animation-delay:2.5s;
+}
+
+@keyframes floatUp{
+0%{
+transform:translateY(0) translateX(0) rotate(0deg);
+opacity:0;
+}
+
+10%{
+opacity:.9;
+}
+
+50%{
+transform:translateY(-50vh) translateX(30px) rotate(5deg);
+}
+
+100%{
+transform:translateY(-120vh) translateX(-30px) rotate(-5deg);
+opacity:0;
+}
+}
+
+/* Page layout */
+
+.page{
+min-height:100vh;
 display:flex;
 align-items:center;
 justify-content:center;
-min-height:100vh;
+padding:18px;
+box-sizing:border-box;
 text-align:center;
 }
+
+/* Card */
+
 .card{
-background:white;
+background:rgba(255,255,255,.78);
 padding:34px;
 border-radius:24px;
-box-shadow:0 20px 40px rgba(0,0,0,0.15);
+box-shadow:0 20px 40px rgba(0,0,0,.18);
 max-width:560px;
 width:100%;
+backdrop-filter:blur(2px);
 }
+
+/* Button */
+
 .btn{
 display:inline-block;
 padding:12px 16px;
@@ -33,29 +188,61 @@ color:white;
 text-decoration:none;
 font-weight:700;
 margin-top:18px;
+transition:transform .2s ease,box-shadow .2s ease;
+}
+
+.btn:hover{
+transform:scale(1.03);
+box-shadow:0 10px 20px rgba(0,0,0,.15);
+}
+
+#names{
+margin-top:10px;
 }
 </style>
 </head>
 
 <body>
+
+<div class="bg"><img alt="Adhrit"></div>
+<div class="shade"></div>
+
+<!-- Floating balloons -->
+<div class="balloons">
+<div class="balloon balloon1"></div>
+<div class="balloon balloon2"></div>
+<div class="balloon balloon3"></div>
+<div class="balloon balloon4"></div>
+<div class="balloon balloon5"></div>
+<div class="balloon balloon6"></div>
+</div>
+
+<div class="page">
 <div class="card">
+
 <h1 id="title">Thank You!</h1>
 <p id="message">Your RSVP has been received.</p>
 <div id="names"></div>
+
 <a class="btn" href="/">Back to Invite</a>
+
+</div>
 </div>
 
 <script>
-const attending=localStorage.getItem("attendingValue");
-const storedNames=localStorage.getItem("attendeeNames");
+const attending = localStorage.getItem("attendingValue");
+const storedNames = localStorage.getItem("attendeeNames");
 
-const title=document.getElementById("title");
-const message=document.getElementById("message");
-const namesEl=document.getElementById("names");
+const title = document.getElementById("title");
+const message = document.getElementById("message");
+const namesEl = document.getElementById("names");
 
-let names=[];
+let names = [];
+
 if(storedNames){
-try{ names=JSON.parse(storedNames);}catch{}
+try{
+names = JSON.parse(storedNames);
+}catch{}
 }
 
 if(names.length>0){
@@ -64,17 +251,20 @@ namesEl.innerHTML="<b>Thank you, "+names.join(", ")+"!</b>";
 
 if(attending==="Yes"){
 title.innerHTML="🎉 Yay! Thank You!";
-message.innerHTML="We’re so happy you’re joining us!";
-}else if(attending==="No"){
-title.innerHTML="😔 We’ll Miss You";
+message.innerHTML="Adhrit is excited to have you on his first birthday!";
+}
+else if(attending==="No"){
+title.innerHTML="😔 Adhrit will miss you";
 message.innerHTML="We’re sad you can’t make it!";
 }
 
-/* ✅ QUICK FIX: clear after 5 minutes instead of instantly */
+/* Clear storage after 5 minutes */
+
 setTimeout(()=>{
 localStorage.removeItem("attendeeNames");
 localStorage.removeItem("attendingValue");
 },300000);
 </script>
+
 </body>
 </html>
