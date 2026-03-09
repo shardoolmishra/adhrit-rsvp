@@ -27,16 +27,9 @@ body {
 }
 
 .bg img {
-  content: url("../images/adhrit.png.png");
   max-height: 100vh;
   max-width: 100vw;
   object-fit: contain;
-}
-
-@media (max-width: 600px) {
-  .bg img {
-    content: url("../images/adhrit-mobile.png");
-  }
 }
 
 .shade {
@@ -205,7 +198,13 @@ body {
 </head>
 
 <body>
-<div class="bg"><img alt="Adhrit"></div>
+<div class="bg">
+  <picture>
+    <source media="(max-width: 600px)" srcset="../images/adhrit-mobile.png">
+    <img src="../images/adhrit.png.png" alt="Adhrit">
+  </picture>
+</div>
+
 <div class="shade"></div>
 
 <div class="balloons" aria-hidden="true">
@@ -345,5 +344,6 @@ setTimeout(() => {
   localStorage.removeItem("attendingValue");
 }, 300000);
 </script>
+
 </body>
 </html>
