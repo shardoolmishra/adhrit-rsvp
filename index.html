@@ -41,6 +41,8 @@ body { background-color: #f2e8e4; }
   background: linear-gradient(rgba(0,0,0,0.10), rgba(0,0,0,0.22));
 }
 
+/* BALLOONS */
+
 .balloons {
   position: fixed;
   inset: 0;
@@ -95,6 +97,8 @@ body { background-color: #f2e8e4; }
   100% { transform: translateY(-120vh) translateX(-30px); opacity:0; }
 }
 
+/* PAGE */
+
 .page {
   height: 100%;
   display: flex;
@@ -112,6 +116,15 @@ body { background-color: #f2e8e4; }
   box-shadow: 0 25px 50px rgba(0,0,0,0.25);
   text-align: center;
   backdrop-filter: blur(2px);
+
+  opacity:0;
+  transform:translateY(30px);
+  transition:all .6s ease;
+}
+
+.overlay.show {
+  opacity:1;
+  transform:translateY(0);
 }
 
 select, input[type="text"], button {
@@ -133,6 +146,7 @@ button {
 
 .hidden { display: none; }
 .names { text-align: left; margin-top: 10px; }
+
 </style>
 </head>
 
@@ -157,7 +171,7 @@ button {
 </div>
 
 <div class="page">
-<div class="overlay">
+<div class="overlay" id="inviteCard">
 
 <h1>🎂 Adhrit’s 1st Birthday</h1>
 <p>You are invited to Adhrit’s 1st Birthday on <b>2nd May 2026</b>.</p>
@@ -165,10 +179,10 @@ button {
 <p><b>Location:</b> 1435 Main St, Cedar Park, TX 78613</p>
 
 <form name="rsvp"
-      method="POST"
-      data-netlify="true"
-      netlify-honeypot="bot-field"
-      action="/thanks/">
+method="POST"
+data-netlify="true"
+netlify-honeypot="bot-field"
+action="/thanks/">
 
 <input type="hidden" name="form-name" value="rsvp" />
 <input type="hidden" id="attendeeNamesField" name="attendee_names" />
@@ -223,6 +237,15 @@ button {
 </audio>
 
 <script>
+
+const inviteCard = document.getElementById("inviteCard");
+
+window.addEventListener("load",()=>{
+setTimeout(()=>{
+inviteCard.classList.add("show");
+},2000);
+});
+
 const attendingEl = document.getElementById("attending");
 const yesSection = document.getElementById("yesSection");
 const partySizeEl = document.getElementById("partySize");
@@ -296,6 +319,7 @@ music.play().catch(()=>{});
 
 document.addEventListener("click",startMusic,{once:true});
 document.addEventListener("touchstart",startMusic,{once:true});
+
 </script>
 
 </body>
