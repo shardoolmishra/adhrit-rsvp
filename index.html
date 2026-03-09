@@ -18,23 +18,81 @@ body { background-color: #f2e8e4; }
 .bg {
   position: fixed;
   inset: 0;
-  z-index: -2;
+  z-index: -3;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+.bg picture,
 .bg img {
-  max-height: 100vh;
-  max-width: 100vw;
+  width: 100%;
+  height: 100%;
+}
+
+.bg img {
   object-fit: contain;
 }
 
 .shade {
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: -2;
   background: linear-gradient(rgba(0,0,0,0.10), rgba(0,0,0,0.22));
+}
+
+.balloons {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.balloon {
+  position: absolute;
+  bottom: -180px;
+  width: 95px;
+  height: 120px;
+  border-radius: 50% 50% 45% 45%;
+  opacity: 0.85;
+  animation: floatUp linear infinite;
+}
+
+.balloon::before {
+  content: "";
+  position: absolute;
+  bottom: -55px;
+  left: 50%;
+  width: 2px;
+  height: 60px;
+  background: rgba(255,255,255,0.7);
+  transform: translateX(-50%);
+}
+
+.balloon::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  background: inherit;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.balloon1 { left: 8%; background: #ff8fab; animation-duration: 7s; }
+.balloon2 { left: 22%; background: #ffd166; animation-duration: 9s; animation-delay: 1s; }
+.balloon3 { left: 40%; background: #90e0ef; animation-duration: 8s; animation-delay: .5s; }
+.balloon4 { left: 62%; background: #cdb4db; animation-duration: 10s; animation-delay: 2s; }
+.balloon5 { left: 78%; background: #95d5b2; animation-duration: 7.5s; animation-delay: 1.5s; }
+.balloon6 { left: 90%; background: #f9bec7; animation-duration: 9.5s; animation-delay: 2.5s; }
+
+@keyframes floatUp {
+  0% { transform: translateY(0); opacity:0; }
+  10% { opacity:.9; }
+  50% { transform: translateY(-50vh) translateX(30px); }
+  100% { transform: translateY(-120vh) translateX(-30px); opacity:0; }
 }
 
 .page {
@@ -89,6 +147,15 @@ button {
 
 <div class="shade"></div>
 
+<div class="balloons">
+<div class="balloon balloon1"></div>
+<div class="balloon balloon2"></div>
+<div class="balloon balloon3"></div>
+<div class="balloon balloon4"></div>
+<div class="balloon balloon5"></div>
+<div class="balloon balloon6"></div>
+</div>
+
 <div class="page">
 <div class="overlay">
 
@@ -112,6 +179,7 @@ button {
 </p>
 
 <label>Will you attend?</label>
+
 <select id="attending" name="attending" required>
 <option value="" disabled selected>Select</option>
 <option value="Yes">Yes 🎉</option>
@@ -119,16 +187,23 @@ button {
 </select>
 
 <div id="yesSection" class="hidden">
+
 <label>Number of people attending</label>
+
 <select id="partySize" name="party_size">
 <option value="" disabled selected>Select</option>
-<option>1</option><option>2</option><option>3</option>
-<option>4</option><option>5</option><option>6</option>
+<option>1</option>
+<option>2</option>
+<option>3</option>
+<option>4</option>
+<option>5</option>
+<option>6</option>
 </select>
 
 <div id="yesNamesSection" class="names hidden">
 <div id="yesNameFields"></div>
 </div>
+
 </div>
 
 <div id="noSection" class="hidden">
@@ -138,13 +213,13 @@ button {
 </div>
 
 <button type="submit">Submit RSVP</button>
-</form>
 
+</form>
 </div>
 </div>
 
 <audio id="bgMusic" loop preload="auto">
-<source src="music/hbd.mp3" type="audio/mpeg">
+<source src="music/birthday.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -191,6 +266,7 @@ localStorage.setItem("attendingValue", val);
 if(val==="Yes"){
 yesSection.classList.remove("hidden");
 }
+
 if(val==="No"){
 noSection.classList.remove("hidden");
 render(noNameFields,1,"not_attending");
@@ -209,6 +285,7 @@ document.querySelector('form[name="rsvp"]').addEventListener("submit",()=>{
 const inputs=document.querySelectorAll('input[type="text"]');
 const names=[];
 inputs.forEach(i=>{ if(i.value.trim()) names.push(i.value.trim()); });
+
 localStorage.setItem("attendeeNames",JSON.stringify(names));
 namesHidden.value=names.join(", ");
 });
