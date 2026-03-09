@@ -13,9 +13,7 @@ html, body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-body {
-  background-color: #f2e8e4;
-}
+body { background-color: #f2e8e4; }
 
 .bg {
   position: fixed;
@@ -24,7 +22,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f2e8e4;
 }
 
 .bg img {
@@ -34,549 +31,313 @@ body {
   object-fit: contain;
 }
 
-@media (max-width: 600px) {
-  .bg img {
-    content: url("images/adhrit-mobile.png");
-  }
+@media (max-width:600px){
+.bg img{
+content:url("images/adhrit-mobile.png");
+}
 }
 
-.shade {
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  background: linear-gradient(rgba(0,0,0,0.10), rgba(0,0,0,0.22));
+.shade{
+position:fixed;
+inset:0;
+z-index:-2;
+background:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.22));
 }
 
-.balloons {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  overflow: hidden;
-  pointer-events: none;
+/* BALLOONS */
+
+.balloons{
+position:fixed;
+inset:0;
+z-index:-1;
+overflow:hidden;
+pointer-events:none;
 }
 
-.balloon {
-  position: absolute;
-  bottom: -180px;
-  width: 95px;
-  height: 120px;
-  border-radius: 50% 50% 45% 45%;
-  opacity: 0.85;
-  animation: floatUp linear infinite;
+.balloon{
+position:absolute;
+bottom:-180px;
+width:95px;
+height:120px;
+border-radius:50% 50% 45% 45%;
+opacity:.85;
+animation:floatUp linear infinite;
 }
 
-.balloon::before {
-  content: "";
-  position: absolute;
-  bottom: -55px;
-  left: 50%;
-  width: 2px;
-  height: 60px;
-  background: rgba(255,255,255,0.7);
-  transform: translateX(-50%);
+.balloon::before{
+content:"";
+position:absolute;
+bottom:-55px;
+left:50%;
+width:2px;
+height:60px;
+background:rgba(255,255,255,.7);
+transform:translateX(-50%);
 }
 
-.balloon::after {
-  content: "";
-  position: absolute;
-  bottom: -6px;
-  left: 50%;
-  width: 12px;
-  height: 12px;
-  background: inherit;
-  transform: translateX(-50%) rotate(45deg);
+.balloon::after{
+content:"";
+position:absolute;
+bottom:-6px;
+left:50%;
+width:12px;
+height:12px;
+background:inherit;
+transform:translateX(-50%) rotate(45deg);
 }
 
-.balloon1 {
-  left: 8%;
-  background: #ff8fab;
-  animation-duration: 7s;
-  animation-delay: 0s;
+.balloon1{left:8%;background:#ff8fab;animation-duration:7s;}
+.balloon2{left:22%;background:#ffd166;animation-duration:9s;animation-delay:1s;}
+.balloon3{left:40%;background:#90e0ef;animation-duration:8s;animation-delay:.5s;}
+.balloon4{left:62%;background:#cdb4db;animation-duration:10s;animation-delay:2s;}
+.balloon5{left:78%;background:#95d5b2;animation-duration:7.5s;animation-delay:1.5s;}
+.balloon6{left:90%;background:#f9bec7;animation-duration:9.5s;animation-delay:2.5s;}
+
+@keyframes floatUp{
+0%{transform:translateY(0) translateX(0) rotate(0deg);opacity:0;}
+10%{opacity:.9;}
+50%{transform:translateY(-50vh) translateX(30px) rotate(5deg);}
+100%{transform:translateY(-120vh) translateX(-30px) rotate(-5deg);opacity:0;}
 }
 
-.balloon2 {
-  left: 22%;
-  background: #ffd166;
-  animation-duration: 9s;
-  animation-delay: 1s;
+/* PAGE */
+
+.page{
+height:100%;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:18px;
 }
 
-.balloon3 {
-  left: 40%;
-  background: #90e0ef;
-  animation-duration: 8s;
-  animation-delay: 0.5s;
+.overlay{
+background:rgba(255,255,255,.72);
+max-width:620px;
+width:92%;
+padding:32px;
+border-radius:26px;
+box-shadow:0 25px 50px rgba(0,0,0,.25);
+text-align:center;
+backdrop-filter:blur(2px);
+
+opacity:0;
+transform:translateY(25px) scale(.98);
+pointer-events:none;
 }
 
-.balloon4 {
-  left: 62%;
-  background: #cdb4db;
-  animation-duration: 10s;
-  animation-delay: 2s;
+.overlay.show{
+animation:fadeUp .9s ease forwards;
+pointer-events:auto;
 }
 
-.balloon5 {
-  left: 78%;
-  background: #95d5b2;
-  animation-duration: 7.5s;
-  animation-delay: 1.5s;
+@keyframes fadeUp{
+from{opacity:0;transform:translateY(25px) scale(.98);}
+to{opacity:1;transform:translateY(0) scale(1);}
 }
 
-.balloon6 {
-  left: 90%;
-  background: #f9bec7;
-  animation-duration: 9.5s;
-  animation-delay: 2.5s;
+select,input[type="text"],button{
+width:100%;
+padding:12px;
+margin-top:10px;
+border-radius:14px;
+border:1px solid #ccc;
+font-size:16px;
+box-sizing:border-box;
 }
 
-@keyframes floatUp {
-  0% {
-    transform: translateY(0) translateX(0) rotate(0deg);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.9;
-  }
-  50% {
-    transform: translateY(-50vh) translateX(30px) rotate(5deg);
-  }
-  100% {
-    transform: translateY(-120vh) translateX(-30px) rotate(-5deg);
-    opacity: 0;
-  }
+button{
+background:#ff8fab;
+color:white;
+font-weight:800;
+border:none;
+margin-top:20px;
+cursor:pointer;
 }
 
-.page {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 18px;
-  box-sizing: border-box;
-}
+.hidden{display:none;}
+.names{text-align:left;margin-top:10px;}
 
-.overlay {
-  background: rgba(255,255,255,0.72);
-  max-width: 620px;
-  width: 92%;
-  padding: 32px;
-  border-radius: 26px;
-  box-shadow: 0 25px 50px rgba(0,0,0,0.25);
-  text-align: center;
-  backdrop-filter: blur(2px);
-  opacity: 0;
-  transform: translateY(25px) scale(0.98);
-  pointer-events: none;
-}
-
-.overlay.show {
-  animation: fadeUp 0.9s ease forwards;
-  pointer-events: auto;
-}
-
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(25px) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-select, input[type="text"], button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  border-radius: 14px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-  box-sizing: border-box;
-}
-
-select, input[type="text"] {
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-select:focus, input[type="text"]:focus {
-  outline: none;
-  border-color: #ff8fab;
-  box-shadow: 0 0 0 4px rgba(255,143,171,0.18);
-}
-
-button {
-  background: #ff8fab;
-  color: white;
-  font-weight: 800;
-  border: none;
-  margin-top: 20px;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
-}
-
-button:hover {
-  transform: scale(1.03);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-}
-
-button:disabled {
-  opacity: 0.75;
-  cursor: wait;
-}
-
-.hidden {
-  display: none;
-}
-
-.names {
-  text-align: left;
-  margin-top: 10px;
-}
-
-#statusMsg {
-  margin-top: 12px;
-  font-size: 14px;
-  color: #444;
-}
-
-#confettiCanvas {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 5;
-}
-
-.thank-you {
-  animation: fadeUp 0.6s ease forwards;
-}
-
-.back-link {
-  display: inline-block;
-  margin-top: 18px;
-  color: #444;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.back-link:hover {
-  text-decoration: underline;
-}
 </style>
 </head>
 
 <body>
-<div class="bg"><img alt="Adhrit" /></div>
+
+<div class="bg"><img alt="Adhrit"></div>
 <div class="shade"></div>
 
-<div class="balloons" aria-hidden="true">
-  <div class="balloon balloon1"></div>
-  <div class="balloon balloon2"></div>
-  <div class="balloon balloon3"></div>
-  <div class="balloon balloon4"></div>
-  <div class="balloon balloon5"></div>
-  <div class="balloon balloon6"></div>
+<div class="balloons">
+<div class="balloon balloon1"></div>
+<div class="balloon balloon2"></div>
+<div class="balloon balloon3"></div>
+<div class="balloon balloon4"></div>
+<div class="balloon balloon5"></div>
+<div class="balloon balloon6"></div>
 </div>
 
-<canvas id="confettiCanvas"></canvas>
-
 <div class="page">
-  <div class="overlay" id="rsvpOverlay">
-    <div id="contentArea">
-      <h1>🎂 Adhrit’s 1st Birthday</h1>
-      <p>You are invited to Adhrit’s 1st Birthday on <b>2nd May 2026</b>.</p>
-      <p><b>Time:</b> 2:00 PM</p>
-      <p><b>Location:</b> 1435 Main St, Cedar Park, TX 78613</p>
+<div class="overlay" id="rsvpOverlay">
 
-      <form name="rsvp"
-            id="rsvpForm"
-            method="POST"
-            data-netlify="true"
-            netlify-honeypot="bot-field">
+<h1>🎂 Adhrit’s 1st Birthday</h1>
 
-        <input type="hidden" name="form-name" value="rsvp" />
-        <input type="hidden" id="attendeeNamesField" name="attendee_names" />
-        <input type="hidden" id="attendingHidden" name="attending_value" value="" />
+<p>You are invited to Adhrit’s 1st Birthday on <b>2nd May 2026</b>.</p>
+<p><b>Time:</b> 2:00 PM</p>
+<p><b>Location:</b> 1435 Main St, Cedar Park, TX 78613</p>
 
-        <p style="display:none;">
-          <label>Don’t fill this out: <input name="bot-field" /></label>
-        </p>
+<form name="rsvp"
+method="POST"
+data-netlify="true"
+netlify-honeypot="bot-field"
+action="/thanks/">
 
-        <label>Will you attend?</label>
-        <select id="attending" name="attending" required>
-          <option value="" disabled selected>Select</option>
-          <option value="Yes">Yes 🎉</option>
-          <option value="No">No 😔</option>
-        </select>
+<input type="hidden" name="form-name" value="rsvp">
+<input type="hidden" id="attendeeNamesField" name="attendee_names">
+<input type="hidden" id="attendingHidden" name="attending_value">
 
-        <div id="yesSection" class="hidden">
-          <label>Number of people attending</label>
-          <select id="partySize" name="party_size">
-            <option value="" disabled selected>Select</option>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-            <option>6</option>
-          </select>
+<p style="display:none;">
+<label>Don’t fill this out: <input name="bot-field"></label>
+</p>
 
-          <div id="yesNamesSection" class="names hidden">
-            <div id="yesNameFields"></div>
-          </div>
-        </div>
+<label>Will you attend?</label>
 
-        <div id="noSection" class="hidden">
-          <div class="names">
-            <div id="noNameFields"></div>
-          </div>
-        </div>
+<select id="attending" name="attending" required>
+<option value="" disabled selected>Select</option>
+<option value="Yes">Yes 🎉</option>
+<option value="No">No 😔</option>
+</select>
 
-        <button type="submit" id="submitBtn">Submit RSVP</button>
-        <div id="statusMsg"></div>
-      </form>
-    </div>
-  </div>
+<div id="yesSection" class="hidden">
+
+<label>Number of people attending</label>
+
+<select id="partySize" name="party_size">
+<option value="" disabled selected>Select</option>
+<option>1</option>
+<option>2</option>
+<option>3</option>
+<option>4</option>
+<option>5</option>
+<option>6</option>
+</select>
+
+<div id="yesNamesSection" class="names hidden">
+<div id="yesNameFields"></div>
+</div>
+
+</div>
+
+<div id="noSection" class="hidden">
+<div class="names">
+<div id="noNameFields"></div>
+</div>
+</div>
+
+<button type="submit">Submit RSVP</button>
+
+</form>
+</div>
 </div>
 
 <audio id="bgMusic" loop preload="auto">
-  <source src="music/hbd.mp3" type="audio/mpeg">
+<source src="music/hbd.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-const attendingEl = document.getElementById("attending");
-const yesSection = document.getElementById("yesSection");
-const partySizeEl = document.getElementById("partySize");
-const yesNamesSection = document.getElementById("yesNamesSection");
-const yesNameFields = document.getElementById("yesNameFields");
-const noSection = document.getElementById("noSection");
-const noNameFields = document.getElementById("noNameFields");
-const namesHidden = document.getElementById("attendeeNamesField");
-const attendingHidden = document.getElementById("attendingHidden");
-const overlay = document.getElementById("rsvpOverlay");
-const form = document.getElementById("rsvpForm");
-const submitBtn = document.getElementById("submitBtn");
-const statusMsg = document.getElementById("statusMsg");
-const contentArea = document.getElementById("contentArea");
-const music = document.getElementById("bgMusic");
+const attendingEl=document.getElementById("attending");
+const yesSection=document.getElementById("yesSection");
+const partySizeEl=document.getElementById("partySize");
+const yesNamesSection=document.getElementById("yesNamesSection");
+const yesNameFields=document.getElementById("yesNameFields");
+const noSection=document.getElementById("noSection");
+const noNameFields=document.getElementById("noNameFields");
+const namesHidden=document.getElementById("attendeeNamesField");
+const attendingHidden=document.getElementById("attendingHidden");
+const overlay=document.getElementById("rsvpOverlay");
+const music=document.getElementById("bgMusic");
 
-function clear(el) {
-  el.innerHTML = "";
+function clear(el){el.innerHTML=""}
+
+function render(container,count,prefix){
+clear(container);
+for(let i=1;i<=count;i++){
+const input=document.createElement("input");
+input.type="text";
+input.name=`${prefix}_${i}`;
+input.placeholder=`Name ${i}`;
+input.required=true;
+container.appendChild(input);
+}
 }
 
-function render(container, count, prefix) {
-  clear(container);
-  for (let i = 1; i <= count; i++) {
-    const input = document.createElement("input");
-    input.type = "text";
-    input.name = `${prefix}_${i}`;
-    input.placeholder = `Name ${i}`;
-    input.required = true;
-    container.appendChild(input);
-  }
+function hideAll(){
+yesSection.classList.add("hidden");
+yesNamesSection.classList.add("hidden");
+noSection.classList.add("hidden");
+partySizeEl.value="";
+clear(yesNameFields);
+clear(noNameFields);
 }
 
-function hideAll() {
-  yesSection.classList.add("hidden");
-  yesNamesSection.classList.add("hidden");
-  noSection.classList.add("hidden");
-  partySizeEl.value = "";
-  clear(yesNameFields);
-  clear(noNameFields);
+attendingEl.addEventListener("change",()=>{
+
+hideAll();
+
+const val=attendingEl.value;
+
+attendingHidden.value=val;
+
+localStorage.setItem("attendingValue",val);
+
+if(val==="Yes"){
+yesSection.classList.remove("hidden");
 }
 
-function getEnteredNames() {
-  const inputs = document.querySelectorAll('input[type="text"]');
-  const names = [];
-  inputs.forEach(i => {
-    if (i.value.trim()) names.push(i.value.trim());
-  });
-  return names;
+if(val==="No"){
+noSection.classList.remove("hidden");
+render(noNameFields,1,"not_attending");
 }
 
-function encodeFormData(data) {
-  return Object.keys(data)
-    .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-    .join("&");
-}
-
-function showThankYou(attendingValue, names) {
-  const safeNames = names.length ? names.join(", ") : "";
-  let title = "Thank You!";
-  let message = "Your RSVP has been received.";
-
-  if (attendingValue === "Yes") {
-    title = "🎉 Yay! Thank You!";
-    message = "Adhrit is excited to have you on his first birthday!";
-  } else if (attendingValue === "No") {
-    title = "😔 Adhrit will miss you";
-    message = "We’re sad you can’t make it!";
-  }
-
-  contentArea.innerHTML = `
-    <div class="thank-you">
-      <h1>${title}</h1>
-      <p>${message}</p>
-      ${safeNames ? `<div><b>Thank you, ${safeNames}!</b></div>` : ""}
-      <a class="back-link" href="/">Refresh invite</a>
-    </div>
-  `;
-}
-
-attendingEl.addEventListener("change", () => {
-  hideAll();
-  const val = attendingEl.value;
-  attendingHidden.value = val;
-  localStorage.setItem("attendingValue", val);
-
-  if (val === "Yes") {
-    yesSection.classList.remove("hidden");
-  }
-
-  if (val === "No") {
-    noSection.classList.remove("hidden");
-    render(noNameFields, 1, "not_attending");
-  }
 });
 
-partySizeEl.addEventListener("change", () => {
-  const count = parseInt(partySizeEl.value, 10);
-  if (count > 0) {
-    render(yesNameFields, count, "attendee");
-    yesNamesSection.classList.remove("hidden");
-  }
+partySizeEl.addEventListener("change",()=>{
+
+const count=parseInt(partySizeEl.value,10);
+
+if(count>0){
+render(yesNameFields,count,"attendee");
+yesNamesSection.classList.remove("hidden");
+}
+
 });
 
-function startMusic() {
-  music.play().catch(() => {});
-  document.removeEventListener("click", startMusic);
-  document.removeEventListener("touchstart", startMusic);
-}
+document.querySelector('form[name="rsvp"]').addEventListener("submit",()=>{
 
-document.addEventListener("click", startMusic, { once: true });
-document.addEventListener("touchstart", startMusic, { once: true });
+const inputs=document.querySelectorAll('input[type="text"]');
 
-const canvas = document.getElementById("confettiCanvas");
-const ctx = canvas.getContext("2d");
+const names=[];
 
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener("resize", resizeCanvas);
-
-function runConfetti(duration = 1800) {
-  const colors = ["#ff8fab", "#ffd166", "#90e0ef", "#cdb4db", "#95d5b2", "#ffffff"];
-  const particles = [];
-  const particleCount = 180;
-
-  for (let i = 0; i < particleCount; i++) {
-    particles.push({
-      x: canvas.width / 2,
-      y: canvas.height * 0.28,
-      vx: (Math.random() - 0.5) * 12,
-      vy: Math.random() * -10 - 4,
-      size: Math.random() * 8 + 4,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      rotation: Math.random() * Math.PI * 2,
-      vr: (Math.random() - 0.5) * 0.3,
-      gravity: 0.22,
-      alpha: 1
-    });
-  }
-
-  const start = performance.now();
-
-  function frame(now) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    for (const p of particles) {
-      p.x += p.vx;
-      p.y += p.vy;
-      p.vy += p.gravity;
-      p.rotation += p.vr;
-      p.alpha -= 0.008;
-
-      ctx.save();
-      ctx.globalAlpha = Math.max(p.alpha, 0);
-      ctx.translate(p.x, p.y);
-      ctx.rotate(p.rotation);
-      ctx.fillStyle = p.color;
-      ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
-      ctx.restore();
-    }
-
-    const alive = particles.some(p => p.alpha > 0 && p.y < canvas.height + 50);
-    if (alive && now - start < duration + 1000) {
-      requestAnimationFrame(frame);
-    } else {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
-  }
-
-  requestAnimationFrame(frame);
-}
-
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  if (!form.reportValidity()) return;
-
-  const names = getEnteredNames();
-  const attendingValue = attendingEl.value;
-
-  localStorage.setItem("attendeeNames", JSON.stringify(names));
-  namesHidden.value = names.join(", ");
-
-  submitBtn.disabled = true;
-  statusMsg.textContent = "Submitting RSVP...";
-
-  const formData = {
-    "form-name": "rsvp",
-    "attending": attendingValue,
-    "attending_value": attendingValue,
-    "party_size": partySizeEl.value || "",
-    "attendee_names": names.join(", "),
-    "bot-field": ""
-  };
-
-  const textInputs = form.querySelectorAll('input[type="text"]');
-  textInputs.forEach(input => {
-    formData[input.name] = input.value.trim();
-  });
-
-  try {
-    const response = await fetch("/", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: encodeFormData(formData)
-    });
-
-    if (!response.ok) {
-      throw new Error("Submission failed");
-    }
-
-    statusMsg.textContent = "";
-
-    if (attendingValue === "Yes") {
-      runConfetti(1800);
-    }
-
-    showThankYou(attendingValue, names);
-  } catch (error) {
-    submitBtn.disabled = false;
-    statusMsg.textContent = "Something went wrong. Please try again.";
-  }
+inputs.forEach(i=>{
+if(i.value.trim()) names.push(i.value.trim());
 });
 
-window.addEventListener("load", () => {
-  setTimeout(() => {
-    overlay.classList.add("show");
-  }, 3000);
+localStorage.setItem("attendeeNames",JSON.stringify(names));
+
+namesHidden.value=names.join(", ");
+
+});
+
+function startMusic(){
+music.play().catch(()=>{});
+}
+
+document.addEventListener("click",startMusic,{once:true});
+document.addEventListener("touchstart",startMusic,{once:true});
+
+window.addEventListener("load",()=>{
+setTimeout(()=>{
+overlay.classList.add("show");
+},3000);
 });
 </script>
+
 </body>
 </html>
