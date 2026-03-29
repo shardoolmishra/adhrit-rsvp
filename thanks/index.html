@@ -6,212 +6,150 @@
 <title>Thank You!</title>
 
 <style>
-html, body {
-  height: 100%;
-  margin: 0;
-  overflow: hidden;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-}
-
-body {
-  background: #f2e8e4;
-}
-
-.bg {
-  position: fixed;
-  inset: 0;
-  z-index: -3;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.bg picture,
-.bg img {
-  width: 100%;
-  height: 100%;
-}
-
-.bg img {
-  object-fit: contain;
-}
-
-.shade {
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  background: linear-gradient(rgba(0,0,0,0.10), rgba(0,0,0,0.22));
-}
-
-.balloons {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.balloon {
-  position: absolute;
-  bottom: -180px;
-  width: 95px;
-  height: 120px;
-  border-radius: 50% 50% 45% 45%;
-  opacity: 0.85;
-  animation: floatUp linear infinite;
-}
-
-.balloon::before {
-  content: "";
-  position: absolute;
-  bottom: -55px;
-  left: 50%;
-  width: 2px;
-  height: 60px;
-  background: rgba(255,255,255,0.7);
-  transform: translateX(-50%);
-}
-
-.balloon::after {
-  content: "";
-  position: absolute;
-  bottom: -6px;
-  left: 50%;
-  width: 12px;
-  height: 12px;
-  background: inherit;
-  transform: translateX(-50%) rotate(45deg);
-}
-
-.balloon1 {
-  left: 8%;
-  background: #ff8fab;
-  animation-duration: 7s;
-}
-
-.balloon2 {
-  left: 22%;
-  background: #ffd166;
-  animation-duration: 9s;
-  animation-delay: 1s;
-}
-
-.balloon3 {
-  left: 40%;
-  background: #90e0ef;
-  animation-duration: 8s;
-  animation-delay: 0.5s;
-}
-
-.balloon4 {
-  left: 62%;
-  background: #cdb4db;
-  animation-duration: 10s;
-  animation-delay: 2s;
-}
-
-.balloon5 {
-  left: 78%;
-  background: #95d5b2;
-  animation-duration: 7.5s;
-  animation-delay: 1.5s;
-}
-
-.balloon6 {
-  left: 90%;
-  background: #f9bec7;
-  animation-duration: 9.5s;
-  animation-delay: 2.5s;
-}
-
-@keyframes floatUp {
-  0% {
-    transform: translateY(0) translateX(0) rotate(0deg);
-    opacity: 0;
+  html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   }
-  10% {
-    opacity: 0.9;
+
+  body { background: #f2e8e4; }
+
+  .bg {
+    position: fixed;
+    inset: 0;
+    z-index: -3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
-  50% {
-    transform: translateY(-50vh) translateX(30px) rotate(5deg);
+
+  .bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
-  100% {
-    transform: translateY(-120vh) translateX(-30px) rotate(-5deg);
-    opacity: 0;
+
+  .shade {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background: linear-gradient(rgba(0,0,0,0.10), rgba(0,0,0,0.22));
   }
-}
 
-.page {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 18px;
-  box-sizing: border-box;
-  text-align: center;
-}
+  /* BALLOONS */
+  .balloons {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
 
-.card {
-  background: rgba(255,255,255,0.78);
-  padding: 34px;
-  border-radius: 24px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.18);
-  max-width: 560px;
-  width: 100%;
-  backdrop-filter: blur(2px);
-  position: relative;
-  z-index: 2;
-}
+  .balloon {
+    position: absolute;
+    bottom: -180px;
+    width: 95px;
+    height: 120px;
+    border-radius: 50% 50% 45% 45%;
+    opacity: 0.85;
+    animation: floatUp linear infinite;
+  }
 
-.btn {
-  display: inline-block;
-  padding: 12px 16px;
-  border-radius: 14px;
-  background: #ff8fab;
-  color: white;
-  text-decoration: none;
-  font-weight: 700;
-  margin-top: 18px;
-  transition: transform .2s ease, box-shadow .2s ease;
-}
+  .balloon::before {
+    content: "";
+    position: absolute;
+    bottom: -55px;
+    left: 50%;
+    width: 2px;
+    height: 60px;
+    background: rgba(255,255,255,0.7);
+    transform: translateX(-50%);
+  }
 
-.btn:hover {
-  transform: scale(1.03);
-  box-shadow: 0 10px 20px rgba(0,0,0,.15);
-}
+  .balloon::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    width: 12px;
+    height: 12px;
+    background: inherit;
+    transform: translateX(-50%) rotate(45deg);
+  }
 
-#names {
-  margin-top: 10px;
-}
+  .balloon1 { left: 8%; background: #ff8fab; animation-duration: 7s; }
+  .balloon2 { left: 22%; background: #ffd166; animation-duration: 9s; animation-delay: 1s; }
+  .balloon3 { left: 40%; background: #90e0ef; animation-duration: 8s; animation-delay: 0.5s; }
+  .balloon4 { left: 62%; background: #cdb4db; animation-duration: 10s; animation-delay: 2s; }
+  .balloon5 { left: 78%; background: #95d5b2; animation-duration: 7.5s; animation-delay: 1.5s; }
+  .balloon6 { left: 90%; background: #f9bec7; animation-duration: 9.5s; animation-delay: 2.5s; }
 
-#musicHint {
-  margin-top: 14px;
-  font-size: 14px;
-  color: #555;
-}
+  @keyframes floatUp {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.9; }
+    50% { transform: translateY(-50vh) translateX(30px) rotate(5deg); }
+    100% { transform: translateY(-120vh) translateX(-30px) rotate(-5deg); opacity: 0; }
+  }
 
-#confettiCanvas {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
-}
+  .page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  .card {
+    background: rgba(255,255,255,0.85);
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.18);
+    max-width: 500px;
+    width: 100%;
+    backdrop-filter: blur(8px);
+    position: relative;
+    z-index: 2;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 14px 24px;
+    border-radius: 14px;
+    background: #ff8fab;
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    margin-top: 24px;
+    transition: transform .2s ease;
+  }
+
+  .btn:hover { transform: scale(1.05); }
+
+  #names { margin-top: 15px; font-size: 1.1em; color: #333; }
+  #musicHint { margin-top: 14px; font-size: 14px; color: #777; }
+
+  #confettiCanvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
 </style>
 </head>
 
 <body>
 <div class="bg">
-  <picture>
-    <source media="(max-width: 600px)" srcset="../images/adhrit-mobile.png">
-    <img src="../images/adhrit.png.png" alt="Adhrit">
-  </picture>
+  <img src="../images/adhrit-mobile.png" alt="Adhrit">
 </div>
 
 <div class="shade"></div>
 
-<div class="balloons" aria-hidden="true">
+<div class="balloons">
   <div class="balloon balloon1"></div>
   <div class="balloon balloon2"></div>
   <div class="balloon balloon3"></div>
@@ -237,44 +175,41 @@ body {
 </audio>
 
 <script>
+// 1. DATA RETRIEVAL
 const attending = localStorage.getItem("attendingValue");
-const storedNames = localStorage.getItem("attendeeNames");
+const rawName = localStorage.getItem("attendeeNames"); // Get the name string
+
 const title = document.getElementById("title");
 const message = document.getElementById("message");
 const namesEl = document.getElementById("names");
 const music = document.getElementById("bgMusic");
 const musicHint = document.getElementById("musicHint");
 
-let names = [];
-if (storedNames) {
-  try {
-    names = JSON.parse(storedNames);
-  } catch {}
-}
-
-if (names.length > 0) {
-  namesEl.innerHTML = "<b>Thank you, " + names.join(", ") + "!</b>";
+// 2. DISPLAY LOGIC
+// Clean up the name string (removes quotes/brackets if any exist from older versions)
+if (rawName) {
+  const cleanName = rawName.replace(/[\[\]"]/g, ""); 
+  namesEl.innerHTML = "<b>Thank you, " + cleanName + "!</b>";
 }
 
 if (attending === "Yes") {
   title.innerHTML = "🎉 Yay! Thank You!";
-  message.innerHTML = "Adhrit is excited to have you on his first birthday!";
+  message.innerHTML = "Adhrit is excited to have you at his first birthday!";
 } else if (attending === "No") {
   title.innerHTML = "😔 Adhrit will miss you";
-  message.innerHTML = "We’re sad you can’t make it!";
+  message.innerHTML = "We’re sad you can’t make it, but thanks for letting us know!";
 }
 
+// 3. MUSIC LOGIC
 function startMusic() {
-  music.play()
-    .then(() => {
-      musicHint.style.display = "none";
-    })
-    .catch(() => {});
+  music.play().then(() => {
+    musicHint.style.display = "none";
+  }).catch(() => {});
 }
-
 document.addEventListener("click", startMusic, { once: true });
 document.addEventListener("touchstart", startMusic, { once: true });
 
+// 4. CONFETTI LOGIC
 const canvas = document.getElementById("confettiCanvas");
 const ctx = canvas.getContext("2d");
 
@@ -285,67 +220,66 @@ function resizeCanvas() {
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
 
-function runConfetti(duration = 1800) {
+function runConfetti(duration = 2000) {
   const colors = ["#ff8fab", "#ffd166", "#90e0ef", "#cdb4db", "#95d5b2", "#ffffff"];
   const particles = [];
-  const particleCount = 180;
+  const particleCount = 150;
 
   for (let i = 0; i < particleCount; i++) {
     particles.push({
       x: canvas.width / 2,
-      y: canvas.height * 0.28,
-      vx: (Math.random() - 0.5) * 12,
-      vy: Math.random() * -10 - 4,
+      y: canvas.height * 0.4,
+      vx: (Math.random() - 0.5) * 15,
+      vy: Math.random() * -12 - 5,
       size: Math.random() * 8 + 4,
       color: colors[Math.floor(Math.random() * colors.length)],
       rotation: Math.random() * Math.PI * 2,
-      vr: (Math.random() - 0.5) * 0.3,
-      gravity: 0.22,
+      vr: (Math.random() - 0.5) * 0.2,
+      gravity: 0.25,
       alpha: 1
     });
   }
 
-  const start = performance.now();
-
-  function frame(now) {
+  function frame() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    let finished = true;
 
     for (const p of particles) {
       p.x += p.vx;
       p.y += p.vy;
       p.vy += p.gravity;
       p.rotation += p.vr;
-      p.alpha -= 0.008;
+      p.alpha -= 0.007;
 
-      ctx.save();
-      ctx.globalAlpha = Math.max(p.alpha, 0);
-      ctx.translate(p.x, p.y);
-      ctx.rotate(p.rotation);
-      ctx.fillStyle = p.color;
-      ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
-      ctx.restore();
+      if (p.alpha > 0) {
+        finished = false;
+        ctx.save();
+        ctx.globalAlpha = p.alpha;
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rotation);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+        ctx.restore();
+      }
     }
 
-    const alive = particles.some(p => p.alpha > 0 && p.y < canvas.height + 50);
-    if (alive && now - start < duration + 1000) {
+    if (!finished) {
       requestAnimationFrame(frame);
-    } else {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
   }
-
   requestAnimationFrame(frame);
 }
 
+// Only trigger confetti if they said Yes
 if (attending === "Yes") {
   window.addEventListener("load", () => {
-    runConfetti(1800);
+    setTimeout(runConfetti, 500);
   });
 }
 
+// Clear storage after 5 minutes so the form resets for future use
 setTimeout(() => {
-  localStorage.removeItem("attendeeNames");
-  localStorage.removeItem("attendingValue");
+  localStorage.clear();
 }, 300000);
 </script>
 
