@@ -6,320 +6,250 @@
 <title>Adhrit’s 1st Birthday RSVP</title>
 
 <style>
-html, body {
-  height: 100%;
-  margin: 0;
-  overflow: hidden;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-}
+  html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  }
 
-body { background-color: #f2e8e4; }
+  body { background-color: #f2e8e4; }
 
-.bg {
-  position: fixed;
-  inset: 0;
-  z-index: -3;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  .bg {
+    position: fixed;
+    inset: 0;
+    z-index: -3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-.bg picture,
-.bg img {
-  width: 100%;
-  height: 100%;
-}
+  .bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 
-.bg img {
-  object-fit: contain;
-}
+  .shade {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background: linear-gradient(rgba(0,0,0,0.10), rgba(0,0,0,0.22));
+  }
 
-.shade {
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  background: linear-gradient(rgba(0,0,0,0.10), rgba(0,0,0,0.22));
-}
+  /* BALLOONS */
+  .balloons {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
 
-/* BALLOONS */
+  .balloon {
+    position: absolute;
+    bottom: -180px;
+    width: 95px;
+    height: 120px;
+    border-radius: 50% 50% 45% 45%;
+    opacity: 0.85;
+    animation: floatUp linear infinite;
+  }
 
-.balloons {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  overflow: hidden;
-  pointer-events: none;
-}
+  .balloon::before {
+    content: "";
+    position: absolute;
+    bottom: -55px;
+    left: 50%;
+    width: 2px;
+    height: 60px;
+    background: rgba(255,255,255,0.7);
+    transform: translateX(-50%);
+  }
 
-.balloon {
-  position: absolute;
-  bottom: -180px;
-  width: 95px;
-  height: 120px;
-  border-radius: 50% 50% 45% 45%;
-  opacity: 0.85;
-  animation: floatUp linear infinite;
-}
+  .balloon::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    width: 12px;
+    height: 12px;
+    background: inherit;
+    transform: translateX(-50%) rotate(45deg);
+  }
 
-.balloon::before {
-  content: "";
-  position: absolute;
-  bottom: -55px;
-  left: 50%;
-  width: 2px;
-  height: 60px;
-  background: rgba(255,255,255,0.7);
-  transform: translateX(-50%);
-}
+  .balloon1 { left: 8%; background: #ff8fab; animation-duration: 7s; }
+  .balloon2 { left: 22%; background: #ffd166; animation-duration: 9s; animation-delay: 1s; }
+  .balloon3 { left: 40%; background: #90e0ef; animation-duration: 8s; animation-delay: .5s; }
+  .balloon4 { left: 62%; background: #cdb4db; animation-duration: 10s; animation-delay: 2s; }
+  .balloon5 { left: 78%; background: #95d5b2; animation-duration: 7.5s; animation-delay: 1.5s; }
+  .balloon6 { left: 90%; background: #f9bec7; animation-duration: 9.5s; animation-delay: 2.5s; }
 
-.balloon::after {
-  content: "";
-  position: absolute;
-  bottom: -6px;
-  left: 50%;
-  width: 12px;
-  height: 12px;
-  background: inherit;
-  transform: translateX(-50%) rotate(45deg);
-}
+  @keyframes floatUp {
+    0% { transform: translateY(0); opacity:0; }
+    10% { opacity:.9; }
+    50% { transform: translateY(-50vh) translateX(30px); }
+    100% { transform: translateY(-120vh) translateX(-30px); opacity:0; }
+  }
 
-.balloon1 { left: 8%; background: #ff8fab; animation-duration: 7s; }
-.balloon2 { left: 22%; background: #ffd166; animation-duration: 9s; animation-delay: 1s; }
-.balloon3 { left: 40%; background: #90e0ef; animation-duration: 8s; animation-delay: .5s; }
-.balloon4 { left: 62%; background: #cdb4db; animation-duration: 10s; animation-delay: 2s; }
-.balloon5 { left: 78%; background: #95d5b2; animation-duration: 7.5s; animation-delay: 1.5s; }
-.balloon6 { left: 90%; background: #f9bec7; animation-duration: 9.5s; animation-delay: 2.5s; }
+  /* PAGE */
+  .page {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+  }
 
-@keyframes floatUp {
-  0% { transform: translateY(0); opacity:0; }
-  10% { opacity:.9; }
-  50% { transform: translateY(-50vh) translateX(30px); }
-  100% { transform: translateY(-120vh) translateX(-30px); opacity:0; }
-}
+  .overlay {
+    background: rgba(255,255,255,0.75);
+    max-width: 500px;
+    width: 92%;
+    padding: 32px;
+    border-radius: 26px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+    text-align: center;
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all .6s ease;
+  }
 
-/* PAGE */
+  .overlay.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
-.page {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 18px;
-}
+  select, input[type="text"], button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 12px;
+    border-radius: 14px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
 
-.overlay {
-  background: rgba(255,255,255,0.70);
-  max-width: 620px;
-  width: 92%;
-  padding: 32px;
-  border-radius: 26px;
-  box-shadow: 0 25px 50px rgba(0,0,0,0.25);
-  text-align: center;
-  backdrop-filter: blur(2px);
+  button {
+    background: #ff8fab;
+    color: white;
+    font-weight: 800;
+    border: none;
+    margin-top: 24px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
 
-  opacity:0;
-  transform:translateY(30px);
-  transition:all .6s ease;
-}
+  button:hover { background: #fb6f92; }
 
-.overlay.show {
-  opacity:1;
-  transform:translateY(0);
-}
-
-select, input[type="text"], button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  border-radius: 14px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-}
-
-button {
-  background: #ff8fab;
-  color: white;
-  font-weight: 800;
-  border: none;
-  margin-top: 20px;
-}
-
-.hidden { display: none; }
-.names { text-align: left; margin-top: 10px; }
-
+  .hidden { display: none; }
+  .field-label { display: block; margin-top: 15px; font-weight: 600; color: #444; text-align: left; }
 </style>
 </head>
 
 <body>
 
 <div class="bg">
-<picture>
-  <source media="(max-width: 600px)" srcset="images/adhrit-mobile.png">
   <img src="images/adhrit-mobile.png" alt="Adhrit">
-</picture>
 </div>
 
 <div class="shade"></div>
 
 <div class="balloons">
-<div class="balloon balloon1"></div>
-<div class="balloon balloon2"></div>
-<div class="balloon balloon3"></div>
-<div class="balloon balloon4"></div>
-<div class="balloon balloon5"></div>
-<div class="balloon balloon6"></div>
+  <div class="balloon balloon1"></div>
+  <div class="balloon balloon2"></div>
+  <div class="balloon balloon3"></div>
+  <div class="balloon balloon4"></div>
+  <div class="balloon balloon5"></div>
+  <div class="balloon balloon6"></div>
 </div>
 
 <div class="page">
-<div class="overlay" id="inviteCard">
+  <div class="overlay" id="inviteCard">
 
-<h2>🎂 Adhrit’s 1st Birthday</h2>
-<p>You are invited to Adhrit’s 1st Birthday on <b>2nd May 2026</b>.</p>
-<p><b>Time:</b> 1:30 PM</p>
-<p><b>Location:</b> 1435 Main St, Cedar Park, TX 78613</p>
+    <h2>🎂 Adhrit’s 1st Birthday</h2>
+    <p>You are invited to Adhrit’s 1st Birthday on <b>2nd May 2026</b>.</p>
+    <p><b>Time:</b> 1:30 PM</p>
+    <p><b>Location:</b> 1435 Main St, Cedar Park, TX 78613</p>
 
-<form name="rsvp"
-method="POST"
-data-netlify="true"
-netlify-honeypot="bot-field"
-action="/thanks/">
+    <form name="rsvp" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks/">
+      <input type="hidden" name="form-name" value="rsvp" />
+      
+      <p style="display:none;">
+        <label>Don’t fill this out: <input name="bot-field" /></label>
+      </p>
 
-<input type="hidden" name="form-name" value="rsvp" />
-<input type="hidden" id="attendeeNamesField" name="attendee_names" />
-<input type="hidden" id="attendingHidden" name="attending_value" value="" />
+      <label class="field-label">Will you attend?</label>
+      <select id="attending" name="attending" required>
+        <option value="" disabled selected>Select</option>
+        <option value="Yes">Yes 🎉</option>
+        <option value="No">No 😔</option>
+      </select>
 
-<p style="display:none;">
-<label>Don’t fill this out: <input name="bot-field" /></label>
-</p>
+      <div id="nameSection" class="hidden">
+        <label class="field-label">Primary Name / Family Name</label>
+        <input type="text" name="guest_name" id="guestName" placeholder="Enter your name" required>
+      </div>
 
-<label>Will you attend?</label>
+      <div id="yesSection" class="hidden">
+        <label class="field-label">Number of people attending</label>
+        <select id="partySize" name="party_size">
+          <option value="1" selected>1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+        </select>
+      </div>
 
-<select id="attending" name="attending" required>
-<option value="" disabled selected>Select</option>
-<option value="Yes">Yes 🎉</option>
-<option value="No">No 😔</option>
-</select>
-
-<div id="yesSection" class="hidden">
-
-<label>Number of people attending</label>
-
-<select id="partySize" name="party_size">
-<option value="" disabled selected>Select</option>
-<option>1</option>
-<option>2</option>
-<option>3</option>
-<option>4</option>
-<option>5</option>
-<option>6</option>
-</select>
-
-<div id="yesNamesSection" class="names hidden">
-<div id="yesNameFields"></div>
-</div>
-
-</div>
-
-<div id="noSection" class="hidden">
-<div class="names">
-<div id="noNameFields"></div>
-</div>
-</div>
-
-<button type="submit">Submit RSVP</button>
-
-</form>
-</div>
+      <button type="submit">Submit RSVP</button>
+    </form>
+  </div>
 </div>
 
 <audio id="bgMusic" loop preload="auto">
-<source src="music/hbd.mp3" type="audio/mpeg">
+  <source src="music/hbd.mp3" type="audio/mpeg">
 </audio>
 
 <script>
+  const inviteCard = document.getElementById("inviteCard");
+  const attendingEl = document.getElementById("attending");
+  const nameSection = document.getElementById("nameSection");
+  const yesSection = document.getElementById("yesSection");
+  const partySizeEl = document.getElementById("partySize");
+  const music = document.getElementById("bgMusic");
 
-const inviteCard = document.getElementById("inviteCard");
+  // Show card with animation
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      inviteCard.classList.add("show");
+    }, 1000);
+  });
 
-window.addEventListener("load",()=>{
-setTimeout(()=>{
-inviteCard.classList.add("show");
-},2000);
-});
+  // Handle dropdown changes
+  attendingEl.addEventListener("change", () => {
+    const val = attendingEl.value;
+    
+    // Show Name field for both Yes and No
+    nameSection.classList.remove("hidden");
 
-const attendingEl = document.getElementById("attending");
-const yesSection = document.getElementById("yesSection");
-const partySizeEl = document.getElementById("partySize");
-const yesNamesSection = document.getElementById("yesNamesSection");
-const yesNameFields = document.getElementById("yesNameFields");
-const noSection = document.getElementById("noSection");
-const noNameFields = document.getElementById("noNameFields");
-const namesHidden = document.getElementById("attendeeNamesField");
-const attendingHidden = document.getElementById("attendingHidden");
-const music = document.getElementById("bgMusic");
+    if (val === "Yes") {
+      yesSection.classList.remove("hidden");
+      partySizeEl.required = true;
+    } else {
+      yesSection.classList.add("hidden");
+      partySizeEl.required = false;
+      partySizeEl.value = ""; // Clear party size for 'No' RSVPs
+    }
+  });
 
-function clear(el){ el.innerHTML=""; }
-
-function render(container,count,prefix){
-clear(container);
-for(let i=1;i<=count;i++){
-const input=document.createElement("input");
-input.type="text";
-input.name=`${prefix}_${i}`;
-input.placeholder=`Name ${i}`;
-input.required=true;
-container.appendChild(input);
-}
-}
-
-function hideAll(){
-yesSection.classList.add("hidden");
-yesNamesSection.classList.add("hidden");
-noSection.classList.add("hidden");
-partySizeEl.value="";
-clear(yesNameFields);
-clear(noNameFields);
-}
-
-attendingEl.addEventListener("change",()=>{
-hideAll();
-const val=attendingEl.value;
-attendingHidden.value=val;
-localStorage.setItem("attendingValue", val);
-
-if(val==="Yes"){
-yesSection.classList.remove("hidden");
-}
-
-if(val==="No"){
-noSection.classList.remove("hidden");
-render(noNameFields,1,"not_attending");
-}
-});
-
-partySizeEl.addEventListener("change",()=>{
-const count=parseInt(partySizeEl.value,10);
-if(count>0){
-render(yesNameFields,count,"attendee");
-yesNamesSection.classList.remove("hidden");
-}
-});
-
-document.querySelector('form[name="rsvp"]').addEventListener("submit",()=>{
-const inputs=document.querySelectorAll('input[type="text"]');
-const names=[];
-inputs.forEach(i=>{ if(i.value.trim()) names.push(i.value.trim()); });
-
-localStorage.setItem("attendeeNames",JSON.stringify(names));
-namesHidden.value=names.join(", ");
-});
-
-function startMusic(){
-music.play().catch(()=>{});
-}
-
-document.addEventListener("click",startMusic,{once:true});
-document.addEventListener("touchstart",startMusic,{once:true});
-
+  // Play music on first interaction
+  function startMusic() {
+    music.play().catch(() => {});
+  }
+  document.addEventListener("click", startMusic, { once: true });
+  document.addEventListener("touchstart", startMusic, { once: true });
 </script>
 
 </body>
